@@ -11,68 +11,68 @@ namespace Internal.Windows.Calls.PhoneOm
     internal struct PH_AVAILABLE_ACTIONS
     {
         [FieldOffset(0x0)]
-        public int MakeCallAvailable;
+        public bool MakeCallAvailable;
         [FieldOffset(0x4)]
-        public int AnswerAvailable;
+        public bool AnswerAvailable;
         [FieldOffset(0x8)]
-        public int IgnoreAvailable;
+        public bool IgnoreAvailable;
         [FieldOffset(0xC)]
-        public int DropAcceptAvailable;
+        public bool DropAcceptAvailable;
         [FieldOffset(0x10)]
-        public int EndCallAvailable;
+        public bool EndCallAvailable;
         [FieldOffset(0x14)]
-        public int SpeakerPhoneOnAvailable;
+        public bool SpeakerPhoneOnAvailable;
         [FieldOffset(0x18)]
-        public int SpeakerPhoneOffAvailable;
+        public bool SpeakerPhoneOffAvailable;
         [FieldOffset(0x1C)]
-        public int MuteAvailable;
+        public bool MuteAvailable;
         [FieldOffset(0x20)]
-        public int UnmuteAvailable;
+        public bool UnmuteAvailable;
         [FieldOffset(0x24)]
-        public int HoldAvailable;
+        public bool HoldAvailable;
         [FieldOffset(0x28)]
-        public int UnholdAvailable;
+        public bool UnholdAvailable;
         [FieldOffset(0x2C)]
-        public int ConferenceAvailable;
+        public bool ConferenceAvailable;
         [FieldOffset(0x30)]
-        public int FlashAvailable;
+        public bool FlashAvailable;
         [FieldOffset(0x34)]
-        public int SwapAvailable;
+        public bool SwapAvailable;
         [FieldOffset(0x38)]
-        public int PrivateAvailable;
+        public bool PrivateAvailable;
         [FieldOffset(0x3C)]
-        public int DropFromConferenceAvailable;
+        public bool DropFromConferenceAvailable;
         [FieldOffset(0x40)]
-        public int BluetoothHandsFreeStateOnAvailable;
+        public bool BluetoothHandsFreeStateOnAvailable;
         [FieldOffset(0x44)]
-        public int BluetoothHandsFreeStateOffAvailable;
+        public bool BluetoothHandsFreeStateOffAvailable;
         [FieldOffset(0x48)]
-        public int WiredHeadsetInUse;
+        public bool WiredHeadsetInUse;
         [FieldOffset(0x4C)]
-        public int UserInitiatedEnd;
+        public bool UserInitiatedEnd;
         [FieldOffset(0x50)]
-        public int KeypadDeployedForCall;
+        public bool KeypadDeployedForCall;
         [FieldOffset(0x54)]
-        public int field_1538;
+        public bool field_1538;
         [FieldOffset(0x58)]
-        public int field_153C;
+        public bool field_153C;
         [FieldOffset(0x5C)]
-        public int DisableLocalVideoAvailable;
+        public bool DisableLocalVideoAvailable;
         [FieldOffset(0x60)]
-        public int EnableLocalVideoAvailable;
+        public bool EnableLocalVideoAvailable;
         [FieldOffset(0x64)]
-        public int AddVideoAvailable;
+        public bool AddVideoAvailable;
         [FieldOffset(0x68)]
-        public int DropVideoAvailable;
+        public bool DropVideoAvailable;
         [FieldOffset(0x6C)]
-        public int AcceptVideoAvailable;
+        public bool AcceptVideoAvailable;
         [FieldOffset(0x70)]
-        public int RejectVideoAvailable;
+        public bool RejectVideoAvailable;
         [FieldOffset(0x74)]
-        public int SetVideoPausedAvailable;
+        public bool SetVideoPausedAvailable;
         [FieldOffset(0x78)]
-        public int StartRecordingAvailable;
+        public bool StartRecordingAvailable;
         [FieldOffset(0x7C)]
-        public int PauseRecordingAvailable;
+        public bool PauseRecordingAvailable;
     }
 }

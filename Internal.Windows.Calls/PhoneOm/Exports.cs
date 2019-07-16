@@ -165,7 +165,7 @@ namespace Internal.Windows.Calls.PhoneOm
         [DllImport("PhoneOm.dll", ExactSpelling = true)]
         public static extern int PhoneGetVoicemailNumberAndOverrideInfo();
         [DllImport("PhoneOm.dll", ExactSpelling = true)]
-        public static extern int PhoneGetWiredHeadsetState(out int inUse);
+        public static extern int PhoneGetWiredHeadsetState(out bool inUse);
         [DllImport("PhoneOm.dll", ExactSpelling = true)]
         public static extern int PhoneHandleAppUninstallByType();
         [DllImport("PhoneOm.dll", ExactSpelling = true)]
@@ -263,7 +263,7 @@ namespace Internal.Windows.Calls.PhoneOm
         [DllImport("PhoneOm.dll", ExactSpelling = true)]
         public static extern int PhoneSetForegroundLine();
         [DllImport("PhoneOm.dll", ExactSpelling = true)]
-        public static extern int PhoneSetHold(ref int callID, int state);
+        public static extern int PhoneSetHold(ref int callID, bool state);
         [DllImport("PhoneOm.dll", ExactSpelling = true)]
         public static extern int PhoneSetLocalVideo();
         [DllImport("PhoneOm.dll", ExactSpelling = true)]
@@ -275,7 +275,7 @@ namespace Internal.Windows.Calls.PhoneOm
         [DllImport("PhoneOm.dll", ExactSpelling = true)]
         public static extern int PhoneSetReminderInfo();
         [DllImport("PhoneOm.dll", ExactSpelling = true)]
-        public static extern int PhoneSetSpeaker(int isEnabled);
+        public static extern int PhoneSetSpeaker(bool isEnabled);
         [DllImport("PhoneOm.dll", ExactSpelling = true)]
         public static extern int PhoneSetVideoCapabilitySharingSettings();
         [DllImport("PhoneOm.dll", ExactSpelling = true)]

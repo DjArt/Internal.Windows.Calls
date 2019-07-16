@@ -165,7 +165,7 @@ namespace Internal.Windows.Calls.PhoneOm
         [FieldOffset(0x1378)]
         public byte* gap_1378;
         [FieldOffset(0x1474)]
-        public int IsHandoverMerged;
+        public bool IsHandoverMerged;
         [FieldOffset(0x1478)]
         public int field_1478;
         [FieldOffset(0x147C)]
@@ -200,13 +200,13 @@ namespace Internal.Windows.Calls.PhoneOm
         [FieldOffset(0x14B4)]
         public byte* gap_14B4;
         [FieldOffset(0x14D0)]
-        public int IsRoaming;
+        public bool IsRoaming;
         [FieldOffset(0x14D4)]
-        public int IsBareCall;
+        public bool IsBareCall;
         [FieldOffset(0x14D8)]
-        public int UseCallWaiting;
+        public bool UseCallWaiting;
         [FieldOffset(0x14DC)]
-        public int SupportsHold;
+        public bool SupportsHold;
         /// <summary>
         /// SendAvailable, field_BC8 must be != 5
         /// probably bool

@@ -22,51 +22,9 @@ namespace Internal.Windows.Calls
         public AvailableActions AvailableActions { get; private set; }
         public int ID => InternalStruct.CallID;
         public int ConferenceID => InternalStruct.ConferenceID;
-        public bool IsBareCall
-        {
-            get
-            {
-                switch (InternalStruct.IsBareCall)
-                {
-                    case 0:
-                        return false;
-                    case 1:
-                        return true;
-                    default:
-                        throw new Exception($"API prediction error: {nameof(IsBareCall)}={InternalStruct.IsBareCall}");
-                }
-            }
-        }
-        public bool IsHandoverMerged
-        {
-            get
-            {
-                switch (InternalStruct.IsHandoverMerged)
-                {
-                    case 0:
-                        return false;
-                    case 1:
-                        return true;
-                    default:
-                        throw new Exception($"API prediction error: {nameof(IsHandoverMerged)}={InternalStruct.IsHandoverMerged}");
-                }
-            }
-        }
-        public bool IsRoaming
-        {
-            get
-            {
-                switch (InternalStruct.IsRoaming)
-                {
-                    case 0:
-                        return false;
-                    case 1:
-                        return true;
-                    default:
-                        throw new Exception($"API prediction error: {nameof(IsRoaming)}={InternalStruct.IsRoaming}");
-                }
-            }
-        }
+        public bool IsBareCall => InternalStruct.IsBareCall;
+        public bool IsHandoverMerged => InternalStruct.IsHandoverMerged;
+        public bool IsRoaming => InternalStruct.IsRoaming;
         public bool RemotePartyIsVideoCapable
         {
             get
@@ -82,36 +40,8 @@ namespace Internal.Windows.Calls
                 }
             }
         }
-        public bool SupportsHold
-        {
-            get
-            {
-                switch (InternalStruct.SupportsHold)
-                {
-                    case 0:
-                        return false;
-                    case 1:
-                        return true;
-                    default:
-                        throw new Exception($"API prediction error: {nameof(SupportsHold)}={InternalStruct.SupportsHold}");
-                }
-            }
-        }
-        public bool UseCallWaiting
-        {
-            get
-            {
-                switch (InternalStruct.UseCallWaiting)
-                {
-                    case 0:
-                        return false;
-                    case 1:
-                        return true;
-                    default:
-                        throw new Exception($"API prediction error: {nameof(UseCallWaiting)}={InternalStruct.UseCallWaiting}");
-                }
-            }
-        }
+        public bool SupportsHold => InternalStruct.SupportsHold;
+        public bool UseCallWaiting => InternalStruct.UseCallWaiting;
         public Guid PhoneLineID => InternalStruct.PhoneLineID;
         public DateTimeOffset StartTime { get; private set; }
         public DateTimeOffset EndTime { get; private set; }
