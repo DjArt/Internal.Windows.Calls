@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Internal.Windows.Calls.PhoneOm
 {
     [StructLayout(LayoutKind.Explicit)]
-    public struct OLITEMID
+    internal struct OLITEMID
     {
         [FieldOffset(0x0)]
         public int field_0;

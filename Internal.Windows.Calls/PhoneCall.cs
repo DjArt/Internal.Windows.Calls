@@ -129,7 +129,7 @@ namespace Internal.Windows.Calls
 
         public void SetHold(bool state)
         {
-            int hResult = PhoneSetHold(ref InternalStruct.CallID, state ? 1 : 0);
+            int hResult = PhoneSetHold(ref InternalStruct.CallID, state);
             Exception ex = new Win32Exception(hResult);
             if (ex != null) throw ex;
             UpdateState();
