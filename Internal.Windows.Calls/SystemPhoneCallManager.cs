@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -19,9 +20,9 @@ namespace Internal.Windows.Calls
             async Task<SystemPhoneCallManager> impl()
             {
                 await Task.Yield();
-                Exception ex = Utils.HResultToException(PhoneAPIInitialize());
+                Exception ex = new Win32Exception(PhoneAPIInitialize());
                 if (ex != null) throw ex;
-                ex = Utils.HResultToException(PhoneWaitForAPIReady(0x7530));
+                ex = new Win32Exception(PhoneWaitForAPIReady(0x7530));
                 //if (hResult + 2147483648 < 0 || hResult == -2147023836)
                 if (ex != null) throw ex;
                 return new SystemPhoneCallManager();
@@ -35,7 +36,7 @@ namespace Internal.Windows.Calls
             get
             {
                 int hResult = PhoneGetWiredHeadsetState(out int state);
-                Exception ex = Utils.HResultToException(hResult);
+                Exception ex = new Win32Exception(hResult);
                 if (ex != null) throw ex;
                 switch (state)
                 {
@@ -62,14 +63,14 @@ namespace Internal.Windows.Calls
         public unsafe void GetCallCounts()
         {
             int hResult = PhoneGetCallCounts(out PH_PHONE_CALL_COUNTS count);
-            Exception ex = Utils.HResultToException(hResult);
+            Exception ex = new Win32Exception(hResult);
             if (ex != null) throw ex;
         }
 
         public unsafe IEnumerable<PhoneCall> GetCurrentCalls()
         {
             int hResult = PhoneGetState(out PH_CALL_INFO* callInfos, out uint count, out PH_PHONE_CALL_COUNTS callCounts);
-            Exception ex = Utils.HResultToException(hResult);
+            Exception ex = new Win32Exception(hResult);
             if (ex != null) throw ex;
             List<PhoneCall> result = new List<PhoneCall>();
             for (int i0 = 0; i0 < count; i0++)

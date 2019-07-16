@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -143,10 +144,10 @@ namespace Internal.Windows.Calls
             try
             {
                 int hResult = PhoneReinitiateCallerIdLookup(ref InternalStruct.CallID);
-                Exception ex = Utils.HResultToException(hResult);
+                Exception ex = new Win32Exception(hResult);
                 if (ex != null) throw ex;
                 hResult = PhoneGetCallInfo(ref InternalStruct.CallID, out PH_CALL_INFO callInfo);
-                ex = Utils.HResultToException(hResult);
+                ex = new Win32Exception(hResult);
                 if (ex != null) throw ex;
                 UpdateState(callInfo);
             }
@@ -159,7 +160,7 @@ namespace Internal.Windows.Calls
         public void AcceptIncomingEx()
         {
             int hResult = PhoneAcceptIncomingEx(ref InternalStruct.CallID);
-            Exception ex = Utils.HResultToException(hResult);
+            Exception ex = new Win32Exception(hResult);
             if (ex != null) throw ex;
             UpdateState();
         }
@@ -167,7 +168,7 @@ namespace Internal.Windows.Calls
         public void AcceptVideo()
         {
             int hResult = PhoneAcceptVideo(ref InternalStruct.CallID);
-            Exception ex = Utils.HResultToException(hResult);
+            Exception ex = new Win32Exception(hResult);
             if (ex != null) throw ex;
             UpdateState();
         }
@@ -175,7 +176,7 @@ namespace Internal.Windows.Calls
         public void DropVideo()
         {
             int hResult = PhoneDropVideo(ref InternalStruct.CallID);
-            Exception ex = Utils.HResultToException(hResult);
+            Exception ex = new Win32Exception(hResult);
             if (ex != null) throw ex;
             UpdateState();
         }
@@ -183,7 +184,7 @@ namespace Internal.Windows.Calls
         public void End()
         {
             int hResult = PhoneEnd(ref InternalStruct.CallID);
-            Exception ex = Utils.HResultToException(hResult);
+            Exception ex = new Win32Exception(hResult);
             if (ex != null) throw ex;
             UpdateState();
         }
@@ -191,7 +192,7 @@ namespace Internal.Windows.Calls
         public void RejectIncoming()
         {
             int hResult = PhoneRejectIncoming(ref InternalStruct.CallID);
-            Exception ex = Utils.HResultToException(hResult);
+            Exception ex = new Win32Exception(hResult);
             if (ex != null) throw ex;
             UpdateState();
         }
@@ -199,7 +200,7 @@ namespace Internal.Windows.Calls
         public void SetHold(bool state)
         {
             int hResult = PhoneSetHold(ref InternalStruct.CallID, state ? 1 : 0);
-            Exception ex = Utils.HResultToException(hResult);
+            Exception ex = new Win32Exception(hResult);
             if (ex != null) throw ex;
             UpdateState();
         }
