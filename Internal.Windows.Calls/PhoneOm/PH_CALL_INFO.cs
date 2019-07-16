@@ -131,11 +131,10 @@ namespace Internal.Windows.Calls.PhoneOm
         [FieldOffset(0xECC)]
         public VideoFlags VideoFlags;
         /// <summary>
-        /// enum
         /// 1 or 2 - InVideoCallTransition
         /// </summary>
         [FieldOffset(0xED0)]
-        public int VideoTransitionState;
+        public VideoTransitionState VideoTransitionState;
         [FieldOffset(0xED4)]
         public int VideoTransitionError;
         [FieldOffset(0xED8)]
@@ -143,7 +142,7 @@ namespace Internal.Windows.Calls.PhoneOm
         [FieldOffset(0xEDC)]
         public int VideoConferenceContext;
         [FieldOffset(0xEE0)]
-        public int VideoConferenceState;
+        public VideoConferenceState VideoConferenceState;
         [FieldOffset(0xEE4)]
         public long field_EE4;
         [FieldOffset(0xEEC)]

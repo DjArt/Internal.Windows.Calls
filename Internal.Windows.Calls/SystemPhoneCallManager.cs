@@ -22,7 +22,7 @@ namespace Internal.Windows.Calls
                 await Task.Yield();
                 Exception ex = new Win32Exception(PhoneAPIInitialize());
                 if (ex != null) throw ex;
-                ex = new Win32Exception(PhoneWaitForAPIReady(0x7530));
+                ex = new Win32Exception(PhoneWaitForAPIReady());
                 //if (hResult + 2147483648 < 0 || hResult == -2147023836)
                 if (ex != null) throw ex;
                 return new SystemPhoneCallManager();
@@ -35,18 +35,10 @@ namespace Internal.Windows.Calls
         {
             get
             {
-                int hResult = PhoneGetWiredHeadsetState(out int state);
+                int hResult = PhoneGetWiredHeadsetState(out bool state);
                 Exception ex = new Win32Exception(hResult);
                 if (ex != null) throw ex;
-                switch (state)
-                {
-                    case 0:
-                        return false;
-                    case 1:
-                        return true;
-                    default:
-                        throw new Exception($"API prediction error: {nameof(PhoneGetWiredHeadsetState)}={state}");
-                }
+                return state;
             }
         }
 
@@ -77,9 +69,12 @@ namespace Internal.Windows.Calls
             {
                 result.Add(new PhoneCall(callInfos[i0]));
             }
+            hResult = PhoneFreeCallInfo(ref callInfos);
+            ex = new Win32Exception(hResult);
+            if (ex != null) throw ex;
             return result.AsReadOnly();
         }
 
-        public int SetSpeaker(bool state) => PhoneSetSpeaker(state ? 1 : 0);
+        public int SetSpeaker(bool state) => PhoneSetSpeaker(state);
     }
 }

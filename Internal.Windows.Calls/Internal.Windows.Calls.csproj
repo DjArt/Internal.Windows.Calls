@@ -144,13 +144,18 @@
     <Compile Include="CallTransport.cs" />
     <Compile Include="CallUpgradeState.cs" />
     <Compile Include="PhoneOm\Exports.cs" />
+    <Compile Include="PhoneOm\PhoneNotifyData.cs" />
+    <Compile Include="PhoneOm\PH_CHANGE_EVENT_NOTIFY_FUNCTION.cs" />
+    <Compile Include="PhoneOm\OLITEMID.cs" />
     <Compile Include="PhoneOm\PH_AVAILABLE_ACTIONS.cs" />
     <Compile Include="PhoneOm\PH_CALL_INFO.cs" />
     <Compile Include="PhoneOm\PH_PHONE_CALL_COUNTS.cs" />
     <Compile Include="SystemPhoneCallManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="VideoConferenceState.cs" />
     <Compile Include="VideoFlags.cs" />
+    <Compile Include="VideoTransitionState.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
