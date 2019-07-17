@@ -52,6 +52,11 @@ namespace Internal.Windows.Calls
             UpdateState(callInfo);
         }
 
+        private uint NotificationCallback(IntPtr phoneListener, IntPtr userData, ref PhoneNotifyData notifyData)
+        {
+            return 0;
+        }
+
         private async void UpdateState(PH_CALL_INFO callInfo)
         {
             try

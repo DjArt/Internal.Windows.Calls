@@ -11,5 +11,5 @@ namespace Internal.Windows.Calls.PhoneOm
     /// Callback function to be used with PhoneAddListener.
     /// </summary>
     [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-    internal delegate uint PH_CHANGE_EVENT_NOTIFY_FUNCTION(IntPtr phoneListener, out IntPtr userData, out PhoneNotifyData notifyData);
+    internal delegate uint PH_CHANGE_EVENT_NOTIFY_FUNCTION(IntPtr phoneListener, IntPtr userData, ref PhoneNotifyData notifyData);
 }
