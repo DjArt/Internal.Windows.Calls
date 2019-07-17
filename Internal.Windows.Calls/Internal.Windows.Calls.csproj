@@ -144,12 +144,16 @@
     <Compile Include="CallTransport.cs" />
     <Compile Include="CallUpgradeState.cs" />
     <Compile Include="PhoneOm\Exports.cs" />
+    <Compile Include="PhoneOm\PhoneListenerEventType.cs" />
     <Compile Include="PhoneOm\PhoneNotifyData.cs" />
+    <Compile Include="PhoneOm\PH_CALL_INFO_field_1480.cs" />
     <Compile Include="PhoneOm\PH_CHANGE_EVENT_NOTIFY_FUNCTION.cs" />
     <Compile Include="PhoneOm\OLITEMID.cs" />
     <Compile Include="PhoneOm\PH_AVAILABLE_ACTIONS.cs" />
     <Compile Include="PhoneOm\PH_CALL_INFO.cs" />
     <Compile Include="PhoneOm\PH_PHONE_CALL_COUNTS.cs" />
+    <Compile Include="PhoneOm\PH_PROVIDER_LINE_SERVICE_INFO.cs" />
+    <Compile Include="PhoneOm\PH_PROVIDER_LINE_SERVICE_INFO_field_130.cs" />
     <Compile Include="SystemPhoneCallManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils.cs" />

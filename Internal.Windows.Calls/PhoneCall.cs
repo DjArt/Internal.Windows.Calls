@@ -20,8 +20,8 @@ namespace Internal.Windows.Calls
         public CallStateReason StateReason => InternalStruct.CallStateReason;
         public CallUpgradeState UpgradeState => InternalStruct.CallUpgradeState;
         public AvailableActions AvailableActions { get; private set; }
-        public int ID => InternalStruct.CallID;
-        public int ConferenceID => InternalStruct.ConferenceID;
+        public uint ID => InternalStruct.CallID;
+        public uint ConferenceID => InternalStruct.ConferenceID;
         public bool IsBareCall => InternalStruct.IsBareCall;
         public bool IsHandoverMerged => InternalStruct.IsHandoverMerged;
         public bool IsRoaming => InternalStruct.IsRoaming;

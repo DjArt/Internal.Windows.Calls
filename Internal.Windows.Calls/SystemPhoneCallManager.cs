@@ -61,7 +61,7 @@ namespace Internal.Windows.Calls
 
         public unsafe IEnumerable<PhoneCall> GetCurrentCalls()
         {
-            int hResult = PhoneGetState(out PH_CALL_INFO* callInfos, out uint count, out PH_PHONE_CALL_COUNTS callCounts);
+            int hResult = PhoneGetState(out PH_CALL_INFO[] callInfos, out uint count, out PH_PHONE_CALL_COUNTS callCounts);
             Exception ex = new Win32Exception(hResult);
             if (ex != null) throw ex;
             List<PhoneCall> result = new List<PhoneCall>();

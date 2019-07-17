@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Internal.Windows.Calls.PhoneOm
 {
-    [StructLayout(LayoutKind.Explicit, Size = 0x19c4)]
+    [StructLayout(LayoutKind.Explicit, Size = 0x19c4, CharSet = CharSet.Unicode)]
     internal unsafe struct PH_CALL_INFO
     {
         [FieldOffset(0x0)]
@@ -26,7 +26,8 @@ namespace Internal.Windows.Calls.PhoneOm
         /// Probably its number, may be a string
         /// </summary>
         [FieldOffset(0xA0)]
-        public char* Number;
+        [MarshalAs(UnmanagedType.LPWStr)]
+        public string Number;
         [FieldOffset(0xa8)]
         public byte* gap_A8;
         [FieldOffset(0x120)]
@@ -81,9 +82,9 @@ namespace Internal.Windows.Calls.PhoneOm
         [FieldOffset(0xBE0)]
         public CallTransport CallTransport;
         [FieldOffset(0xBE4)]
-        public int CallID;
+        public uint CallID;
         [FieldOffset(0xBE8)]
-        public int ConferenceID;
+        public uint ConferenceID;
         [FieldOffset(0xbec)]
         public byte* gap_BEC;
         /// <summary>
@@ -165,14 +166,15 @@ namespace Internal.Windows.Calls.PhoneOm
         public byte* gap_1378;
         [FieldOffset(0x1474)]
         public bool IsHandoverMerged;
+        /// <summary>
+        /// Probably bool
+        /// </summary>
         [FieldOffset(0x1478)]
         public int field_1478;
         [FieldOffset(0x147C)]
         public int gap_147C;
         [FieldOffset(0x1480)]
-        public int field_1480;
-        [FieldOffset(0x1484)]
-        public int field_1484;
+        public PH_CALL_INFO_field_1480 field_1480;
         [FieldOffset(0x1488)]
         public byte* gap_1488;
         [FieldOffset(0x148C)]
@@ -213,9 +215,11 @@ namespace Internal.Windows.Calls.PhoneOm
         [FieldOffset(0x14E0)]
         public int field_14E0;
         [FieldOffset(0x14E4)]
+        public int field_14E4;
+        [FieldOffset(0x14E8)]
         public PH_AVAILABLE_ACTIONS AvailableActions;
-        [FieldOffset(0x1564)]
-        public byte* gap_1564;
+        [FieldOffset(0x1568)]
+        public byte* gap_1568;
         [FieldOffset(0x189a)]
         public short field_189A;
         [FieldOffset(0x189c)]
