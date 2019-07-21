@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Internal.Windows.Calls.PhoneOm
 {
-    public enum PhoneListenerEventType : int
+    internal enum PH_CHANGEEVENT : long
     {
         PhoneStateChanged = 1,
         ActionAvailabilityChanged = 2,
