@@ -6,7 +6,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Internal.Windows.Calls.PhoneOm;
-
+using Windows.ApplicationModel.Calls;
+using Windows.Foundation;
 using static Internal.Windows.Calls.PhoneOm.Exports;
 
 namespace Internal.Windows.Calls
@@ -14,6 +15,9 @@ namespace Internal.Windows.Calls
     public sealed class PhoneCall
     {
         private PH_CALL_INFO InternalStruct;
+
+        public event TypedEventHandler<PhoneCall, AvailableActions> AvailableActionsChanged;
+        public event TypedEventHandler<PhoneCall, CallState> StateChanged;
 
         public CallDirection Direction => InternalStruct.CallDirection;
         public CallState State => InternalStruct.CallState;
@@ -43,6 +47,8 @@ namespace Internal.Windows.Calls
         public bool SupportsHold => InternalStruct.SupportsHold;
         public bool UseCallWaiting => InternalStruct.UseCallWaiting;
         public Guid PhoneLineID => InternalStruct.PhoneLineID;
+        public string Number => InternalStruct.Number;
+        public string Name => InternalStruct.Name;
         public DateTimeOffset StartTime { get; private set; }
         public DateTimeOffset EndTime { get; private set; }
         public DateTimeOffset LastFlashedTime { get; private set; }
@@ -52,91 +58,88 @@ namespace Internal.Windows.Calls
             UpdateState(callInfo);
         }
 
-        private uint NotificationCallback(IntPtr phoneListener, IntPtr userData, ref PhoneNotifyData notifyData)
+        private void UpdateAvailableActions(PH_AVAILABLE_ACTIONS actions)
         {
-            return 0;
-        }
-
-        private async void UpdateState(PH_CALL_INFO callInfo)
-        {
-            try
+            bool changed = !InternalStruct.AvailableActions.Equals(actions);
+            InternalStruct.AvailableActions = actions;
+            AvailableActions = new AvailableActions(InternalStruct.AvailableActions);
+            if (changed)
             {
-                InternalStruct = callInfo;
-                AvailableActions = new AvailableActions(InternalStruct.AvailableActions);
-                //PhoneLine = await PhoneLine.FromIdAsync(InternalStruct.PhoneLineID);
-                //StartTime = InternalStruct.CallStartTime.ToDateTime();
-                //EndTime = InternalStruct.CallEndTime.ToDateTime();
-                //LastFlashedTime = InternalStruct.LastFlashedTime.ToDateTime();
-            }
-            catch (Exception ex)
-            {
-                AsyncExceptionHandler.Throw(ex);
+                AvailableActionsChanged?.Invoke(this, AvailableActions);
             }
         }
 
-        public void UpdateState()
+        private void UpdateState(PH_CALL_INFO callInfo)
         {
+            bool stateChanged = State != callInfo.CallState;
+            InternalStruct = callInfo;
+            UpdateAvailableActions(InternalStruct.AvailableActions);
             try
             {
-                int hResult = PhoneReinitiateCallerIdLookup(ref InternalStruct.CallID);
-                Exception ex = new Win32Exception(hResult);
-                if (ex != null) throw ex;
-                hResult = PhoneGetCallInfo(ref InternalStruct.CallID, out PH_CALL_INFO callInfo);
-                ex = new Win32Exception(hResult);
-                if (ex != null) throw ex;
-                UpdateState(callInfo);
+                StartTime = DateTime.FromFileTime(InternalStruct.CallStartTime);
+                EndTime = DateTime.FromFileTime(InternalStruct.CallEndTime);
+                LastFlashedTime = DateTime.FromFileTime(InternalStruct.LastFlashedTime);
             }
-            catch (Exception ex)
+            catch
             {
-                AsyncExceptionHandler.Throw(ex);
+
             }
+            if (stateChanged)
+            {
+                StateChanged?.Invoke(this, State);
+            }
+        }
+
+        internal void UpdateAvailableActions()
+        {
+            PhoneGetAvailableActions(ref InternalStruct.CallID, out PH_AVAILABLE_ACTIONS actions);
+            UpdateAvailableActions(actions);
+        }
+
+        internal void UpdateID()
+        {
+            PhoneReinitiateCallerIdLookup(ref InternalStruct.CallID);
+        }
+
+        internal void UpdateState()
+        {
+            PhoneGetCallInfo(ref InternalStruct.CallID, out PH_CALL_INFO callInfo);
+            UpdateState(callInfo);
         }
 
         public void AcceptIncomingEx()
         {
-            int hResult = PhoneAcceptIncomingEx(ref InternalStruct.CallID);
-            Exception ex = new Win32Exception(hResult);
-            if (ex != null) throw ex;
+            PhoneAcceptIncomingEx(ref InternalStruct.CallID);
             UpdateState();
         }
 
         public void AcceptVideo()
         {
-            int hResult = PhoneAcceptVideo(ref InternalStruct.CallID);
-            Exception ex = new Win32Exception(hResult);
-            if (ex != null) throw ex;
+            PhoneAcceptVideo(ref InternalStruct.CallID);
             UpdateState();
         }
 
         public void DropVideo()
         {
-            int hResult = PhoneDropVideo(ref InternalStruct.CallID);
-            Exception ex = new Win32Exception(hResult);
-            if (ex != null) throw ex;
+            PhoneDropVideo(ref InternalStruct.CallID);
             UpdateState();
         }
 
         public void End()
         {
-            int hResult = PhoneEnd(ref InternalStruct.CallID);
-            Exception ex = new Win32Exception(hResult);
-            if (ex != null) throw ex;
+            PhoneEnd(ref InternalStruct.CallID);
             UpdateState();
         }
 
         public void RejectIncoming()
         {
-            int hResult = PhoneRejectIncoming(ref InternalStruct.CallID);
-            Exception ex = new Win32Exception(hResult);
-            if (ex != null) throw ex;
+            PhoneRejectIncoming(ref InternalStruct.CallID);
             UpdateState();
         }
 
         public void SetHold(bool state)
         {
-            int hResult = PhoneSetHold(ref InternalStruct.CallID, state);
-            Exception ex = new Win32Exception(hResult);
-            if (ex != null) throw ex;
+            PhoneSetHold(ref InternalStruct.CallID, state);
             UpdateState();
         }
 

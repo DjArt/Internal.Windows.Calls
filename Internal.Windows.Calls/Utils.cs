@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -21,7 +22,7 @@ namespace Internal.Windows.Calls
             return result;
         }
 
-        public static unsafe string ByteDump(void* ptr, int count)
+        public static unsafe string ByteDump(void* ptr, int count, int split = 0)
         {
             StringBuilder result = new StringBuilder();
             byte* dumping = (byte*)ptr;
@@ -29,13 +30,12 @@ namespace Internal.Windows.Calls
             {
                 result.Append(dumping[i0]);
                 result.Append(' ');
+                if (split != 0 && split == i0)
+                {
+                    result.Append('|');
+                }
             }
             return result.ToString();
-        }
-
-        public static DateTime ToDateTime(this FILETIME @struct)
-        {
-            return DateTime.FromFileTime((long)@struct.dwHighDateTime << 32 | @struct.dwLowDateTime);
         }
     }
 }

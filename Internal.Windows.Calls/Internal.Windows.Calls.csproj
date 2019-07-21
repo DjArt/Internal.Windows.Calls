@@ -132,7 +132,6 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AsyncExceptionHandler.cs" />
     <Compile Include="AudioFlags.cs" />
     <Compile Include="AudioQuality.cs" />
     <Compile Include="AvailableActions.cs" />
@@ -144,8 +143,7 @@
     <Compile Include="CallTransport.cs" />
     <Compile Include="CallUpgradeState.cs" />
     <Compile Include="PhoneOm\Exports.cs" />
-    <Compile Include="PhoneOm\PhoneListenerEventType.cs" />
-    <Compile Include="PhoneOm\PhoneNotifyData.cs" />
+    <Compile Include="PhoneOm\PH_CHANGEEVENT.cs" />
     <Compile Include="PhoneOm\PH_CALL_INFO_field_1480.cs" />
     <Compile Include="PhoneOm\PH_CHANGE_EVENT_NOTIFY_FUNCTION.cs" />
     <Compile Include="PhoneOm\OLITEMID.cs" />

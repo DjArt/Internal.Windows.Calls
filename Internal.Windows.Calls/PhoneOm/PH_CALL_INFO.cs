@@ -8,54 +8,68 @@ using System.Threading.Tasks;
 
 namespace Internal.Windows.Calls.PhoneOm
 {
-    [StructLayout(LayoutKind.Explicit, Size = 0x19c4, CharSet = CharSet.Unicode)]
+    [StructLayout(LayoutKind.Explicit, Size = SIZE, CharSet = CharSet.Unicode)]
     internal unsafe struct PH_CALL_INFO
     {
-        [FieldOffset(0x0)]
-        public long field_0;
-        [FieldOffset(0x8)]
-        public long field_8;
-        /// <summary>
-        /// pointer?
-        /// </summary>
-        [FieldOffset(0x10)]
-        public long field_10;
-        [FieldOffset(0x18)]
-        public byte* gap_18;
+        public const int SIZE = 0x19c4;
+
+        [FieldOffset(0x0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        public string Name;
         /// <summary>
         /// Probably its number, may be a string
         /// </summary>
-        [FieldOffset(0xA0)]
-        [MarshalAs(UnmanagedType.LPWStr)]
+        [FieldOffset(0xA0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
         public string Number;
-        [FieldOffset(0xa8)]
-        public byte* gap_A8;
-        [FieldOffset(0x120)]
-        public char* field_120;
-        [FieldOffset(0x520)]
-        public long field_520;
-        [FieldOffset(0x528)]
-        public byte* gap_528;
-        [FieldOffset(0x570)]
-        public short field_570;
-        [FieldOffset(0x572)]
-        public byte* gap_572;
-        [FieldOffset(0x98c)]
-        public long field_98C;
-        [FieldOffset(0x994)]
-        public int field_994;
-        [FieldOffset(0x998)]
-        public int field_998;
-        [FieldOffset(0x99c)]
-        public byte* gap_99C;
+        //[FieldOffset(0xA8)]
+        //public byte* gap_A8;
+        //[FieldOffset(0x120)]
+        //public byte* gap_120;
+        //[FieldOffset(0x2E0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        //public string field_2E0;
+        ////[FieldOffset(0x2E4)]
+        ////public byte* gap_2E4;
+        //[FieldOffset(0x360), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        //public string field_360;
+        ////[FieldOffset(0x364)]
+        ////public byte* gap_364;
+        //[FieldOffset(0x3E0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        //public string field_3E0;
+        ////[FieldOffset(0x3E4)]
+        ////public byte* gap_3E4;
+        //[FieldOffset(0x480), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        //public string field_480;
+        ////[FieldOffset(0x484)]
+        ////public byte* gap_484;
+        //[FieldOffset(0x520), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        //public string field_520;
+        ////[FieldOffset(0x528)]
+        ////public byte* gap_528;
+        //[FieldOffset(0x570), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        //public string field_570;
+        ////[FieldOffset(0x572)]
+        ////public byte* gap_572;
+        //[FieldOffset(0x778), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        //public string field_778;
+        ////[FieldOffset(0x77C)]
+        ////public byte* gap_77C;
+        //[FieldOffset(0x98C)]
+        //public long field_98C;
+        //[FieldOffset(0x994)]
+        //public int field_994;
+        //[FieldOffset(0x998)]
+        //public int field_998;
+        //[FieldOffset(0x99C), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        //public string field_99C;
+        //[FieldOffset(0x9A0)]
+        //public byte* gap_9A0;
         [FieldOffset(0xBA4)]
-        public FILETIME CallStartTime;
+        public long CallStartTime;
         [FieldOffset(0xBAC)]
-        public FILETIME CallEndTime;
+        public long CallEndTime;
         [FieldOffset(0xBB4)]
-        public FILETIME field_BB4;
+        public long field_BB4;
         [FieldOffset(0xBBC)]
-        public FILETIME LastFlashedTime;
+        public long LastFlashedTime;
         [FieldOffset(0xBC4)]
         public byte* gap_BC4;
         [FieldOffset(0xbc8)]
@@ -99,14 +113,14 @@ namespace Internal.Windows.Calls.PhoneOm
         public int field_BF0;
         [FieldOffset(0xbf4)]
         public Guid PhoneLineID;
-        [FieldOffset(0xc00)]
-        public byte* gap_C00;
+        //[FieldOffset(0xc00)]
+        //public byte* gap_C00;
         [FieldOffset(0xC04)]
         public int field_C04;
-        [FieldOffset(0xC08)]
-        public byte* gap_C08;
-        [FieldOffset(0xc0c)]
-        public char* field_C0C;
+        //[FieldOffset(0xC08)]
+        //public byte* gap_C08;
+        //[FieldOffset(0xc0c)]
+        //public char* field_C0C;
         /// <summary>
         /// maybe enum
         /// 1 - HasVideo
@@ -121,8 +135,8 @@ namespace Internal.Windows.Calls.PhoneOm
         /// </summary>
         [FieldOffset(0xCB4)]
         public int field_CB4;
-        [FieldOffset(0xCD8)]
-        public char* field_CB8;
+        //[FieldOffset(0xCD8)]
+        //public char* field_CB8;
         [FieldOffset(0xEC0)]
         public AudioQuality AudioQuality;
         [FieldOffset(0xEC4)]
@@ -146,24 +160,24 @@ namespace Internal.Windows.Calls.PhoneOm
         public VideoConferenceState VideoConferenceState;
         [FieldOffset(0xEE4)]
         public long field_EE4;
-        [FieldOffset(0xEEC)]
-        public byte* gap_EEC;
+        //[FieldOffset(0xEEC)]
+        //public byte* gap_EEC;
         [FieldOffset(0xEF4)]
         public long field_EF4;
-        [FieldOffset(0xEFC)]
-        public byte* gap_EFC;
-        [FieldOffset(0x1104)]
-        public char* field_1104;
+        //[FieldOffset(0xEFC)]
+        //public byte* gap_EFC;
+        //[FieldOffset(0x1104)]
+        //public char* field_1104;
         [FieldOffset(0x11CC)]
         public long field_11CC;
-        [FieldOffset(0x11D4)]
-        public byte* gap_11D4;
-        [FieldOffset(0x126C)]
-        public char* field_126C;
+        //[FieldOffset(0x11D4)]
+        //public byte* gap_11D4;
+        //[FieldOffset(0x126C)]
+        //public char* field_126C;
         [FieldOffset(0x1370)]
         public long field_1370;
-        [FieldOffset(0x1378)]
-        public byte* gap_1378;
+        //[FieldOffset(0x1378)]
+        //public byte* gap_1378;
         [FieldOffset(0x1474)]
         public bool IsHandoverMerged;
         /// <summary>
@@ -175,14 +189,14 @@ namespace Internal.Windows.Calls.PhoneOm
         public int gap_147C;
         [FieldOffset(0x1480)]
         public PH_CALL_INFO_field_1480 field_1480;
-        [FieldOffset(0x1488)]
-        public byte* gap_1488;
+        //[FieldOffset(0x1488)]
+        //public byte* gap_1488;
         [FieldOffset(0x148C)]
         public int field_148C;
         [FieldOffset(0x1490)]
         public int field_1490;
-        [FieldOffset(0x1494)]
-        public byte* gap_1494;
+        //[FieldOffset(0x1494)]
+        //public byte* gap_1494;
         [FieldOffset(0x1498)]
         public int field_1498;
         /// <summary>
@@ -190,16 +204,16 @@ namespace Internal.Windows.Calls.PhoneOm
         /// </summary>
         [FieldOffset(0x149C)]
         public int field_149C;
-        [FieldOffset(0x14A0)]
-        public byte* gap_14A0;
+        //[FieldOffset(0x14A0)]
+        //public byte* gap_14A0;
         [FieldOffset(0x14A4)]
         public int field_14A4;
-        [FieldOffset(0x14A8)]
-        public byte* gap_14A8;
+        //[FieldOffset(0x14A8)]
+        //public byte* gap_14A8;
         [FieldOffset(0x14B0)]
         public int field_14B0;
-        [FieldOffset(0x14B4)]
-        public byte* gap_14B4;
+        //[FieldOffset(0x14B4)]
+        //public byte* gap_14B4;
         [FieldOffset(0x14D0)]
         public bool IsRoaming;
         [FieldOffset(0x14D4)]
@@ -218,16 +232,16 @@ namespace Internal.Windows.Calls.PhoneOm
         public int field_14E4;
         [FieldOffset(0x14E8)]
         public PH_AVAILABLE_ACTIONS AvailableActions;
-        [FieldOffset(0x1568)]
-        public byte* gap_1568;
+        //[FieldOffset(0x1568)]
+        //public byte* gap_1568;
         [FieldOffset(0x189a)]
         public short field_189A;
-        [FieldOffset(0x189c)]
-        public byte* gap_189C;
+        //[FieldOffset(0x189c)]
+        //public byte* gap_189C;
         [FieldOffset(0x199c)]
         public short field_199C;
-        [FieldOffset(0x199e)]
-        public byte* gap_199E;
+        //[FieldOffset(0x199e)]
+        //public byte* gap_199E;
         [FieldOffset(0x19b0)]
         public int field_19B0;
         [FieldOffset(0x19b4)]
