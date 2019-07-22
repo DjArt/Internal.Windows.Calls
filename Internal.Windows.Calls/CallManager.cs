@@ -14,27 +14,31 @@ using static Internal.Windows.Calls.PhoneOm.Exports;
 
 namespace Internal.Windows.Calls
 {
-    public sealed class SystemPhoneCallManager
+    public sealed class CallManager
     {
         private static readonly PH_CHANGEEVENT[] SubscriptionTypes = new[] { PH_CHANGEEVENT.PhoneStateChanged };
 
-        public static IAsyncOperation<SystemPhoneCallManager> GetSystemPhoneCallManagerAsync()
+        public static IAsyncOperation<CallManager> GetSystemPhoneCallManagerAsync()
         {
-            async Task<SystemPhoneCallManager> impl()
+            async Task<CallManager> impl()
             {
                 await Task.Yield();
-                return new SystemPhoneCallManager();
+                return new CallManager();
             }
 
             return impl().AsAsyncOperation();
         }
 
         private readonly IntPtr _PhoneListenerPointer;
-        private readonly List<PhoneCall> _Calls = new List<PhoneCall>();
+        private readonly List<Call> _Calls = new List<Call>();
 
-        public event TypedEventHandler<SystemPhoneCallManager, PhoneCall> CallAppeared;
+        public event TypedEventHandler<CallManager, Call> CallAppeared;
+        /// <summary>
+        /// Fires when <see cref="CurrentCalls"/> obtains or lost calls.
+        /// </summary>
+        public event TypedEventHandler<CallManager, CallCounts> CurrentCallsChanged;
 
-        public IEnumerable<PhoneCall> CurrentCalls => _Calls.AsReadOnly();
+        public IEnumerable<Call> CurrentCalls => _Calls.AsReadOnly();
         public bool WiredHeadsetIsConnected
         {
             get
@@ -44,14 +48,14 @@ namespace Internal.Windows.Calls
             }
         }
 
-        private SystemPhoneCallManager()
+        private CallManager()
         {
             PhoneAPIInitialize();
             PhoneWaitForAPIReady(0x7530);
             PhoneAddListener(NotificationCallback, SubscriptionTypes, (uint)SubscriptionTypes.Length, IntPtr.Zero, out _PhoneListenerPointer);
         }
 
-        ~SystemPhoneCallManager()
+        ~CallManager()
         {
             PhoneRemoveListener(_PhoneListenerPointer);
             PhoneAPIUninitialize();
@@ -62,7 +66,12 @@ namespace Internal.Windows.Calls
             switch (eventType)
             {
                 case PH_CHANGEEVENT.PhoneStateChanged:
+                    List<Call> invalidCalls = new List<Call>();
+                    bool currentCallsChanged = false;
                     PhoneGetState(out PH_CALL_INFO[] callInfos, out uint count, out PH_PHONE_CALL_COUNTS callCounts);
+
+                    ////That part of code saved for cases with memory leaks
+                    
                     //PhoneGetState(out IntPtr callInfosPtr, out uint count, out PH_PHONE_CALL_COUNTS callCounts);
                     //PH_CALL_INFO[] callInfos = new PH_CALL_INFO[count];
                     //for (int i0 = 0; i0 < count; i0++)
@@ -70,8 +79,8 @@ namespace Internal.Windows.Calls
                     //    callInfos[i0] = Marshal.PtrToStructure<PH_CALL_INFO>(IntPtr.Add(callInfosPtr, PH_CALL_INFO.SIZE * i0));
                     //}
                     //PhoneFreeCallInfo(callInfosPtr);
-                    List<PhoneCall> invalidCalls = new List<PhoneCall>();
-                    foreach (PhoneCall call in _Calls)
+
+                    foreach (Call call in _Calls)
                     {
                         try
                         {
@@ -83,22 +92,28 @@ namespace Internal.Windows.Calls
                             invalidCalls.Add(call);
                         }
                     }
-                    foreach (PhoneCall call in invalidCalls)
+                    foreach (Call call in invalidCalls)
                     {
                         _Calls.Remove(call);
                     }
                     if (invalidCalls.Count > 0)
                     {
                         PhoneClearIdleCallsFromController();
+                        currentCallsChanged = true;
                     }
                     foreach (PH_CALL_INFO callInfo in callInfos)
                     {
                         if (!_Calls.Exists(x => x.ID == callInfo.CallID))
                         {
-                            PhoneCall call = new PhoneCall(callInfo);
+                            Call call = new Call(callInfo);
                             _Calls.Add(call);
                             CallAppeared?.Invoke(this, call);
+                            currentCallsChanged = true;
                         }
+                    }
+                    if (currentCallsChanged)
+                    {
+                        CurrentCallsChanged?.Invoke(this, new CallCounts(callCounts));
                     }
                     break;
             }

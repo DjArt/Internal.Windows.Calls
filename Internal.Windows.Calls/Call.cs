@@ -12,12 +12,13 @@ using static Internal.Windows.Calls.PhoneOm.Exports;
 
 namespace Internal.Windows.Calls
 {
-    public sealed class PhoneCall
+    public sealed class Call : INotifyPropertyChanged
     {
         private PH_CALL_INFO InternalStruct;
 
-        public event TypedEventHandler<PhoneCall, AvailableActions> AvailableActionsChanged;
-        public event TypedEventHandler<PhoneCall, CallState> StateChanged;
+        public event TypedEventHandler<Call, AvailableActions> AvailableActionsChanged;
+        public event TypedEventHandler<Call, CallState> StateChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public CallDirection Direction => InternalStruct.CallDirection;
         public CallState State => InternalStruct.CallState;
@@ -53,9 +54,14 @@ namespace Internal.Windows.Calls
         public DateTimeOffset EndTime { get; private set; }
         public DateTimeOffset LastFlashedTime { get; private set; }
 
-        internal PhoneCall(PH_CALL_INFO callInfo)
+        internal Call(PH_CALL_INFO callInfo)
         {
             UpdateState(callInfo);
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void UpdateAvailableActions(PH_AVAILABLE_ACTIONS actions)
@@ -66,6 +72,7 @@ namespace Internal.Windows.Calls
             if (changed)
             {
                 AvailableActionsChanged?.Invoke(this, AvailableActions);
+                OnPropertyChanged(nameof(AvailableActions));
             }
         }
 
@@ -87,6 +94,7 @@ namespace Internal.Windows.Calls
             if (stateChanged)
             {
                 StateChanged?.Invoke(this, State);
+                OnPropertyChanged(nameof(State));
             }
         }
 
@@ -141,20 +149,6 @@ namespace Internal.Windows.Calls
         {
             PhoneSetHold(ref InternalStruct.CallID, state);
             UpdateState();
-        }
-
-        public override string ToString()
-        {
-            StringBuilder builder = new StringBuilder();
-            foreach (FieldInfo info in InternalStruct.GetType().GetTypeInfo().GetFields())
-            {
-                builder.Append("  ");
-                builder.Append(info.Name);
-                builder.Append(" = ");
-                builder.Append(info.GetValue(InternalStruct).ToString());
-                builder.AppendLine();
-            }
-            return builder.ToString();
         }
     }
 }

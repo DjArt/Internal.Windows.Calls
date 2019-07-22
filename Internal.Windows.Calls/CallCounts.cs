@@ -7,7 +7,7 @@ using Internal.Windows.Calls.PhoneOm;
 
 namespace Internal.Windows.Calls
 {
-    public sealed class PhoneCallCounts
+    public sealed class CallCounts
     {
         internal PH_PHONE_CALL_COUNTS InternalStruct;
 
@@ -24,7 +24,7 @@ namespace Internal.Windows.Calls
         public uint AllCalls => InternalStruct.AllCalls;
         public uint field_2C => InternalStruct.field_2C;
 
-        internal PhoneCallCounts(PhoneOm.PH_PHONE_CALL_COUNTS @struct)
+        internal CallCounts(PhoneOm.PH_PHONE_CALL_COUNTS @struct)
         {
             InternalStruct = @struct;
         }
