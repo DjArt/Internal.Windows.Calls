@@ -38,7 +38,7 @@ namespace Internal.Windows.Calls
         /// </summary>
         public event TypedEventHandler<CallManager, CallCounts> CurrentCallsChanged;
 
-        public IEnumerable<Call> CurrentCalls => _Calls.AsReadOnly();
+        public IEnumerable<Call> CurrentCalls => _Calls.ToList().AsReadOnly();
         public bool WiredHeadsetIsConnected
         {
             get
