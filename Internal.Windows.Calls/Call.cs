@@ -118,37 +118,31 @@ namespace Internal.Windows.Calls
         public void AcceptIncomingEx()
         {
             PhoneAcceptIncomingEx(ref InternalStruct.CallID);
-            UpdateState();
         }
 
         public void AcceptVideo()
         {
             PhoneAcceptVideo(ref InternalStruct.CallID);
-            UpdateState();
         }
 
         public void DropVideo()
         {
             PhoneDropVideo(ref InternalStruct.CallID);
-            UpdateState();
         }
 
         public void End()
         {
             PhoneEnd(ref InternalStruct.CallID);
-            UpdateState();
         }
 
         public void RejectIncoming()
         {
             PhoneRejectIncoming(ref InternalStruct.CallID);
-            UpdateState();
         }
 
         public void SetHold(bool state)
         {
             PhoneSetHold(ref InternalStruct.CallID, state);
-            UpdateState();
         }
     }
 }
