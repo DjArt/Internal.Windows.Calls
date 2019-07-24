@@ -31,6 +31,7 @@ namespace Internal.Windows.Calls
 
         private readonly IntPtr _PhoneListenerPointer;
         private readonly List<Call> _Calls = new List<Call>();
+        private readonly PH_CHANGE_EVENT_NOTIFY_FUNCTION _Callback;
 
         public event TypedEventHandler<CallManager, Call> CallAppeared;
         /// <summary>
@@ -52,7 +53,8 @@ namespace Internal.Windows.Calls
         {
             PhoneAPIInitialize();
             PhoneWaitForAPIReady(0x7530);
-            PhoneAddListener(NotificationCallback, SubscriptionTypes, (uint)SubscriptionTypes.Length, IntPtr.Zero, out _PhoneListenerPointer);
+            _Callback = NotificationCallback;
+            PhoneAddListener(_Callback, SubscriptionTypes, (uint)SubscriptionTypes.Length, IntPtr.Zero, out _PhoneListenerPointer);
         }
 
         ~CallManager()
@@ -69,17 +71,6 @@ namespace Internal.Windows.Calls
                     List<Call> invalidCalls = new List<Call>();
                     bool currentCallsChanged = false;
                     PhoneGetState(out PH_CALL_INFO[] callInfos, out uint count, out PH_PHONE_CALL_COUNTS callCounts);
-
-                    ////That part of code saved for cases with memory leaks
-                    
-                    //PhoneGetState(out IntPtr callInfosPtr, out uint count, out PH_PHONE_CALL_COUNTS callCounts);
-                    //PH_CALL_INFO[] callInfos = new PH_CALL_INFO[count];
-                    //for (int i0 = 0; i0 < count; i0++)
-                    //{
-                    //    callInfos[i0] = Marshal.PtrToStructure<PH_CALL_INFO>(IntPtr.Add(callInfosPtr, PH_CALL_INFO.SIZE * i0));
-                    //}
-                    //PhoneFreeCallInfo(callInfosPtr);
-
                     foreach (Call call in _Calls)
                     {
                         try
