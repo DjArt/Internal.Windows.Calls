@@ -47,7 +47,7 @@ namespace Internal.Windows.Calls
         }
         public bool SupportsHold => InternalStruct.SupportsHold;
         public bool UseCallWaiting => InternalStruct.UseCallWaiting;
-        public Guid PhoneLineID => InternalStruct.PhoneLineID;
+        public PhoneLine Line { get; private set; }
         public string Number => InternalStruct.Number;
         public string Name => InternalStruct.Name;
         public DateTimeOffset StartTime { get; private set; }
@@ -76,9 +76,10 @@ namespace Internal.Windows.Calls
             }
         }
 
-        private void UpdateState(PH_CALL_INFO callInfo)
+        private async void UpdateState(PH_CALL_INFO callInfo)
         {
             bool stateChanged = State != callInfo.CallState;
+            bool lineChanged = false;
             InternalStruct = callInfo;
             UpdateAvailableActions(InternalStruct.AvailableActions);
             try
@@ -86,6 +87,10 @@ namespace Internal.Windows.Calls
                 StartTime = DateTime.FromFileTime(InternalStruct.CallStartTime);
                 EndTime = DateTime.FromFileTime(InternalStruct.CallEndTime);
                 LastFlashedTime = DateTime.FromFileTime(InternalStruct.LastFlashedTime);
+                if (lineChanged = Line?.Id != InternalStruct.PhoneLineID)
+                {
+                    Line = await PhoneLine.FromIdAsync(InternalStruct.PhoneLineID);
+                }
             }
             catch
             {
