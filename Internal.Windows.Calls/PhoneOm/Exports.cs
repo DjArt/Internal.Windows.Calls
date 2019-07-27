@@ -86,7 +86,7 @@ namespace Internal.Windows.Calls.PhoneOm
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneDropVideo(ref uint callID);
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
-        public static extern void PhoneEnableBluetoothHandsFree();
+        public static extern void PhoneEnableBluetoothHandsFree(bool state);
         /// <summary>
         /// End a given call in the system.
         /// </summary>
@@ -142,7 +142,7 @@ namespace Internal.Windows.Calls.PhoneOm
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneGetCallState();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
-        public static extern void PhoneGetCallsInConference(ref uint conferenceID, out PH_CALL_INFO[] calls, out uint count);
+        public static extern void PhoneGetCallsInConference(ref uint conferenceID, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]out PH_CALL_INFO[] calls, out uint count);
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneGetCellularApiComponentInfo();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
@@ -168,9 +168,9 @@ namespace Internal.Windows.Calls.PhoneOm
         /// <param name="count"></param>
         /// <returns></returns>
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
-        public static extern void PhoneGetLines(out Guid* ids, out uint count);
+        public static extern void PhoneGetLines([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]out Guid[] ids, out uint count);
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
-        public static extern void PhoneGetLinesEx();
+        public static extern void PhoneGetLinesEx(uint param, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]out Guid[] lines, out uint count);
         /// <summary>
         /// Returns the current mute state of the system.
         /// </summary>
@@ -216,7 +216,6 @@ namespace Internal.Windows.Calls.PhoneOm
         /// <param name="callCounts">If supplied, returns PH_PHONE_CALL_COUNTS.</param>
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneGetState([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]out PH_CALL_INFO[] callInfos, out uint count, out PH_PHONE_CALL_COUNTS callCounts);
-        //public static extern void PhoneGetState(out IntPtr callInfos, out uint count, out PH_PHONE_CALL_COUNTS callCounts);
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneGetVideoCapabilities();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
@@ -252,8 +251,8 @@ namespace Internal.Windows.Calls.PhoneOm
         /// </remarks>
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern bool PhoneIsActionAvailable(ref uint callID, int action);
-        [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
-        public static extern void PhoneIsDtmfWaitPending();
+        [DllImport("PhoneOm.dll", ExactSpelling = true)]
+        public static extern bool PhoneIsDtmfWaitPending();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneIsEmergencyNumber();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
@@ -293,7 +292,7 @@ namespace Internal.Windows.Calls.PhoneOm
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhonePauseRecording(ref uint callID);
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
-        public static extern void PhonePrivate();
+        public static extern void PhonePrivate(ref uint callID);
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhonePublicDial();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
