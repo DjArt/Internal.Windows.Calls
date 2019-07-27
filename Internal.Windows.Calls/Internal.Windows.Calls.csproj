@@ -150,7 +150,9 @@
     <Compile Include="PhoneOm\PH_AVAILABLE_ACTIONS.cs" />
     <Compile Include="PhoneOm\PH_CALL_INFO.cs" />
     <Compile Include="PhoneOm\PH_PHONE_CALL_COUNTS.cs" />
+    <Compile Include="PhoneOm\PH_PROVIDER_LINE_INFO.cs" />
     <Compile Include="PhoneOm\PH_PROVIDER_LINE_SERVICE_INFO.cs" />
+    <Compile Include="PhoneOm\PH_PROVIDER_LINE_SERVICE_INFO_field_8C.cs" />
     <Compile Include="PhoneOm\PH_PROVIDER_LINE_SERVICE_INFO_field_130.cs" />
     <Compile Include="CallManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

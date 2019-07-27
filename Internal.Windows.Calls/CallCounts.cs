@@ -24,7 +24,7 @@ namespace Internal.Windows.Calls
         public uint AllCalls => InternalStruct.AllCalls;
         public uint field_2C => InternalStruct.field_2C;
 
-        internal CallCounts(PhoneOm.PH_PHONE_CALL_COUNTS @struct)
+        internal CallCounts(PH_PHONE_CALL_COUNTS @struct)
         {
             InternalStruct = @struct;
         }
