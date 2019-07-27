@@ -11,7 +11,8 @@ namespace Internal.Windows.Calls.PhoneOm
     [StructLayout(LayoutKind.Explicit, Size = SIZE, CharSet = CharSet.Unicode)]
     internal unsafe struct PH_CALL_INFO
     {
-        public const int SIZE = 0x19c4;
+        //public const int SIZE = 0x19c4;
+        public const int SIZE = 0x1568;
 
         [FieldOffset(0x0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
         public string Name;
@@ -24,32 +25,32 @@ namespace Internal.Windows.Calls.PhoneOm
         //public byte* gap_A8;
         //[FieldOffset(0x120)]
         //public byte* gap_120;
-        //[FieldOffset(0x2E0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
-        //public string field_2E0;
+        [FieldOffset(0x2E0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        public string field_2E0;
         ////[FieldOffset(0x2E4)]
         ////public byte* gap_2E4;
-        //[FieldOffset(0x360), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
-        //public string field_360;
+        [FieldOffset(0x360), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        public string field_360;
         ////[FieldOffset(0x364)]
         ////public byte* gap_364;
-        //[FieldOffset(0x3E0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
-        //public string field_3E0;
+        [FieldOffset(0x3E0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        public string field_3E0;
         ////[FieldOffset(0x3E4)]
         ////public byte* gap_3E4;
-        //[FieldOffset(0x480), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
-        //public string field_480;
+        [FieldOffset(0x480), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        public string field_480;
         ////[FieldOffset(0x484)]
         ////public byte* gap_484;
-        //[FieldOffset(0x520), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
-        //public string field_520;
+        [FieldOffset(0x520), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        public string field_520;
         ////[FieldOffset(0x528)]
         ////public byte* gap_528;
-        //[FieldOffset(0x570), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
-        //public string field_570;
+        [FieldOffset(0x570), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        public string field_570;
         ////[FieldOffset(0x572)]
         ////public byte* gap_572;
-        //[FieldOffset(0x778), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
-        //public string field_778;
+        [FieldOffset(0x778), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        public string field_778;
         ////[FieldOffset(0x77C)]
         ////public byte* gap_77C;
         //[FieldOffset(0x98C)]
@@ -189,14 +190,10 @@ namespace Internal.Windows.Calls.PhoneOm
         public int gap_147C;
         [FieldOffset(0x1480)]
         public PH_CALL_INFO_field_1480 field_1480;
-        //[FieldOffset(0x1488)]
-        //public byte* gap_1488;
+        [FieldOffset(0x1488)]
+        public int field_1488;
         [FieldOffset(0x148C)]
-        public int field_148C;
-        [FieldOffset(0x1490)]
-        public int field_1490;
-        //[FieldOffset(0x1494)]
-        //public byte* gap_1494;
+        public OLITEMID field_148C;
         [FieldOffset(0x1498)]
         public int field_1498;
         /// <summary>
@@ -214,37 +211,31 @@ namespace Internal.Windows.Calls.PhoneOm
         public int field_14B0;
         //[FieldOffset(0x14B4)]
         //public byte* gap_14B4;
-        [FieldOffset(0x14D0)]
-        public bool IsRoaming;
         [FieldOffset(0x14D4)]
-        public bool IsBareCall;
+        public bool IsRoaming;
         [FieldOffset(0x14D8)]
-        public bool UseCallWaiting;
+        public bool IsBareCall;
         [FieldOffset(0x14DC)]
-        public bool SupportsHold;
-        /// <summary>
-        /// SendAvailable, field_BC8 must be != 5
-        /// probably bool
-        /// </summary>
+        public bool UseCallWaiting;
         [FieldOffset(0x14E0)]
-        public int field_14E0;
+        public bool SupportsHold;
         [FieldOffset(0x14E4)]
-        public int field_14E4;
+        public bool IsDtmfWaitPending;
         [FieldOffset(0x14E8)]
         public PH_AVAILABLE_ACTIONS AvailableActions;
         //[FieldOffset(0x1568)]
         //public byte* gap_1568;
-        [FieldOffset(0x189a)]
-        public short field_189A;
-        //[FieldOffset(0x189c)]
-        //public byte* gap_189C;
-        [FieldOffset(0x199c)]
-        public short field_199C;
-        //[FieldOffset(0x199e)]
-        //public byte* gap_199E;
-        [FieldOffset(0x19b0)]
-        public int field_19B0;
-        [FieldOffset(0x19b4)]
-        public int field_19B4;
+        //[FieldOffset(0x189a)]
+        //public short field_189A;
+        ////[FieldOffset(0x189c)]
+        ////public byte* gap_189C;
+        //[FieldOffset(0x199c)]
+        //public short field_199C;
+        ////[FieldOffset(0x199e)]
+        ////public byte* gap_199E;
+        //[FieldOffset(0x19b0)]
+        //public int field_19B0;
+        //[FieldOffset(0x19b4)]
+        //public int field_19B4;
     }
 }
