@@ -67,6 +67,10 @@ namespace Internal.Windows.Calls.PhoneOm
         public static extern void PhoneCallVoicemail();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneCancelNonSeamlessUpgrade();
+        /// <summary>
+        /// Clear dead calls.
+        /// May trigger Listener, that causes event-loop(if called in event handler) and high CPU usage by PhoneSvc
+        /// </summary>
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneClearIdleCallsFromController();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
