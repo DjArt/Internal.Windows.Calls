@@ -8,5 +8,7 @@ namespace Internal.Windows.Calls
 {
     public enum CallTransport : int
     {
+        Cellular = 1,
+        VoIP = 2,
     }
 }
