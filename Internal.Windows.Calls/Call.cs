@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Internal.Windows.Calls.PhoneOm;
 using Windows.ApplicationModel.Calls;
 using Windows.Foundation;
+
 using static Internal.Windows.Calls.PhoneOm.Exports;
 
 namespace Internal.Windows.Calls
