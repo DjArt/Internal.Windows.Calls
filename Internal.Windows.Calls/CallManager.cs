@@ -118,6 +118,10 @@ namespace Internal.Windows.Calls
             {
                 CurrentCallsChanged?.Invoke(this, new CallCounts(callCounts));
             }
+            if (CallCounts.DisconnectedCalls > 0 || CallCounts.IndeterminateCalls > 0 || CallCounts.UpgradingCalls > 0)
+            {
+                PhoneClearIdleCallsFromController();
+            }
         }
 
         public void SetSpeaker(bool state) => PhoneSetSpeaker(state);
