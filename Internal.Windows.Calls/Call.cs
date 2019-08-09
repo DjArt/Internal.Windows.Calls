@@ -18,7 +18,7 @@ namespace Internal.Windows.Calls
         private PH_CALL_INFO InternalStruct;
 
         public event TypedEventHandler<Call, AvailableActions> AvailableActionsChanged;
-        public event TypedEventHandler<Call, CallState> StateChanged;
+        public event TypedEventHandler<Call, CallStateChangedEventArgs> StateChanged;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public CallDirection Direction => InternalStruct.CallDirection;
@@ -51,9 +51,9 @@ namespace Internal.Windows.Calls
         public PhoneLine Line { get; private set; }
         public string Number => InternalStruct.Number;
         public string Name => InternalStruct.Name;
-        public DateTimeOffset StartTime { get; private set; }
-        public DateTimeOffset EndTime { get; private set; }
-        public DateTimeOffset LastFlashedTime { get; private set; }
+        public DateTimeOffset? StartTime { get; private set; }
+        public DateTimeOffset? EndTime { get; private set; }
+        public DateTimeOffset? LastFlashedTime { get; private set; }
 
         internal Call(PH_CALL_INFO callInfo)
         {
@@ -79,15 +79,36 @@ namespace Internal.Windows.Calls
 
         private async void UpdateState(PH_CALL_INFO callInfo)
         {
-            bool stateChanged = State != callInfo.CallState;
+            CallState oldState = State;
             bool lineChanged = false;
             InternalStruct = callInfo;
             UpdateAvailableActions(InternalStruct.AvailableActions);
             try
             {
                 StartTime = DateTime.FromFileTime(InternalStruct.CallStartTime);
+            }
+            catch
+            {
+
+            }
+            try
+            {
                 EndTime = DateTime.FromFileTime(InternalStruct.CallEndTime);
-                LastFlashedTime = DateTime.FromFileTime(InternalStruct.LastFlashedTime);
+            }
+            catch
+            {
+
+            }
+            try
+            {
+                LastFlashedTime = DateTimeOffset.FromFileTime(InternalStruct.LastFlashedTime);
+            }
+            catch
+            {
+
+            }
+            try
+            {
                 if (lineChanged = Line?.Id != InternalStruct.PhoneLineID)
                 {
                     Line = await PhoneLine.FromIdAsync(InternalStruct.PhoneLineID);
@@ -97,9 +118,9 @@ namespace Internal.Windows.Calls
             {
 
             }
-            if (stateChanged)
+            if (oldState != State)
             {
-                StateChanged?.Invoke(this, State);
+                StateChanged?.Invoke(this, new CallStateChangedEventArgs(oldState, State, StateReason));
                 OnPropertyChanged(nameof(State));
             }
         }

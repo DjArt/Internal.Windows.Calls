@@ -139,6 +139,7 @@
     <Compile Include="CallDirection.cs" />
     <Compile Include="Call.cs" />
     <Compile Include="CallState.cs" />
+    <Compile Include="CallStateChangedEventArgs.cs" />
     <Compile Include="CallStateReason.cs" />
     <Compile Include="CallTransport.cs" />
     <Compile Include="CallUpgradeState.cs" />
