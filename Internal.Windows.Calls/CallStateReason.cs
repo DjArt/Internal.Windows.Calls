@@ -10,6 +10,7 @@ namespace Internal.Windows.Calls
     {
         Other = 0,
         Busy = 1,
+        Ended = 4,
         NetworkCongestion = 9,
         Dropped = 10,
         CallBarred = 11,
@@ -18,6 +19,5 @@ namespace Internal.Windows.Calls
         RoamRestricted = 24,
         CallUpgradeInitiated = 25,
         VideoCallingOff = 26,
-        Ended = 27
     }
 }
