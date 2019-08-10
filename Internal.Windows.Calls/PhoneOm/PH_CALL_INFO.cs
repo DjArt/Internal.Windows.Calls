@@ -11,8 +11,7 @@ namespace Internal.Windows.Calls.PhoneOm
     [StructLayout(LayoutKind.Explicit, Size = SIZE, CharSet = CharSet.Unicode)]
     internal unsafe struct PH_CALL_INFO
     {
-        //public const int SIZE = 0x19c4;
-        public const int SIZE = 0x1568;
+        public const int SIZE = 0x19c4;
 
         [FieldOffset(0x0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
         public string Name;
@@ -21,16 +20,16 @@ namespace Internal.Windows.Calls.PhoneOm
         /// </summary>
         [FieldOffset(0xA0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
         public string Number;
-        //[FieldOffset(0xA8)]
-        //public byte* gap_A8;
         //[FieldOffset(0x120)]
         //public byte* gap_120;
+        [FieldOffset(0x1A0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        public string CallDetails;
         [FieldOffset(0x2E0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
         public string field_2E0;
         ////[FieldOffset(0x2E4)]
         ////public byte* gap_2E4;
         [FieldOffset(0x360), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
-        public string field_360;
+        public string ForwardNumber;
         ////[FieldOffset(0x364)]
         ////public byte* gap_364;
         [FieldOffset(0x3E0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
@@ -46,11 +45,11 @@ namespace Internal.Windows.Calls.PhoneOm
         ////[FieldOffset(0x528)]
         ////public byte* gap_528;
         [FieldOffset(0x570), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
-        public string field_570;
+        public string ContactPicture;
         ////[FieldOffset(0x572)]
         ////public byte* gap_572;
         [FieldOffset(0x778), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
-        public string field_778;
+        public string Ringtone;
         ////[FieldOffset(0x77C)]
         ////public byte* gap_77C;
         //[FieldOffset(0x98C)]
@@ -60,7 +59,7 @@ namespace Internal.Windows.Calls.PhoneOm
         //[FieldOffset(0x998)]
         //public int field_998;
         //[FieldOffset(0x99C), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
-        //public string field_99C;
+        //public string MeContactPicture;
         //[FieldOffset(0x9A0)]
         //public byte* gap_9A0;
         [FieldOffset(0xBA4)]
@@ -135,9 +134,9 @@ namespace Internal.Windows.Calls.PhoneOm
         /// except 0 - VoipCall
         /// </summary>
         [FieldOffset(0xCB4)]
-        public int field_CB4;
-        //[FieldOffset(0xCD8)]
-        //public char* field_CB8;
+        public int OwningApplicationType;
+        [FieldOffset(0xCB8), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        public string OwningApplicationId;
         [FieldOffset(0xEC0)]
         public AudioQuality AudioQuality;
         [FieldOffset(0xEC4)]
@@ -165,27 +164,28 @@ namespace Internal.Windows.Calls.PhoneOm
         //public byte* gap_EEC;
         [FieldOffset(0xEF4)]
         public long field_EF4;
-        //[FieldOffset(0xEFC)]
-        //public byte* gap_EFC;
-        //[FieldOffset(0x1104)]
-        //public char* field_1104;
+        //[FieldOffset(0xF04), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        //public string ReminderText;
+        //[FieldOffset(0x1104), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        //public string CallerLocation;
         [FieldOffset(0x11CC)]
         public long field_11CC;
         //[FieldOffset(0x11D4)]
         //public byte* gap_11D4;
-        //[FieldOffset(0x126C)]
-        //public char* field_126C;
+        //[FieldOffset(0x126C), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        //public string CallerCategoryDescription;
+        /// <summary>
+        /// 1 - dialed
+        /// 2 - accept
+        /// </summary>
+        [FieldOffset(0x136C)]
+        public uint ActionByExternalDevice;
         [FieldOffset(0x1370)]
         public long field_1370;
         //[FieldOffset(0x1378)]
         //public byte* gap_1378;
-        [FieldOffset(0x1474)]
-        public bool IsHandoverMerged;
-        /// <summary>
-        /// Probably bool
-        /// </summary>
         [FieldOffset(0x1478)]
-        public int field_1478;
+        public bool IsHandoverMerged;
         [FieldOffset(0x147C)]
         public int gap_147C;
         [FieldOffset(0x1480)]
@@ -209,8 +209,8 @@ namespace Internal.Windows.Calls.PhoneOm
         //public byte* gap_14A8;
         [FieldOffset(0x14B0)]
         public int field_14B0;
-        //[FieldOffset(0x14B4)]
-        //public byte* gap_14B4;
+        //[FieldOffset(0x14B4), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        //public string CallIdentifier;
         [FieldOffset(0x14D4)]
         public bool IsRoaming;
         [FieldOffset(0x14D8)]
