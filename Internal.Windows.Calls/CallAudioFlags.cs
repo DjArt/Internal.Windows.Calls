@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Internal.Windows.Calls
 {
-    public enum VideoFlags : int
+    public enum CallAudioFlags : uint
     {
-        TemporarilyUnavailable = 8
     }
 }

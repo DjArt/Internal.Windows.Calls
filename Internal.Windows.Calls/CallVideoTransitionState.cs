@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Internal.Windows.Calls
 {
-    public enum VideoConferenceState : int
+    public enum CallVideoTransitionState : uint
     {
+
     }
 }

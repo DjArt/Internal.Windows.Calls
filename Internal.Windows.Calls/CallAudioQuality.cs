@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Internal.Windows.Calls
 {
-    public enum AudioQuality : int
+    public enum CallAudioQuality : uint
     {
         
     }

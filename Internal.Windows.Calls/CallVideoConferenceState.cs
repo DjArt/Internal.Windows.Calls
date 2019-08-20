@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Internal.Windows.Calls
 {
-    public enum AudioFlags : int
+    public enum CallVideoConferenceState : uint
     {
     }
 }
