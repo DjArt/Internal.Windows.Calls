@@ -18,7 +18,7 @@ namespace Internal.Windows.Calls.PhoneOm
         /// <summary>
         /// Probably its number, may be a string
         /// </summary>
-        [FieldOffset(0xA0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        [FieldOffset(0xA0), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x32)]
         public string Number;
         //[FieldOffset(0x120)]
         //public byte* gap_120;
@@ -28,7 +28,7 @@ namespace Internal.Windows.Calls.PhoneOm
         public string field_2E0;
         ////[FieldOffset(0x2E4)]
         ////public byte* gap_2E4;
-        [FieldOffset(0x360), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        [FieldOffset(0x360), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x32)]
         public string ForwardNumber;
         ////[FieldOffset(0x364)]
         ////public byte* gap_364;
@@ -71,7 +71,7 @@ namespace Internal.Windows.Calls.PhoneOm
         [FieldOffset(0xBBC)]
         public long LastFlashedTime;
         [FieldOffset(0xBC4)]
-        public byte* gap_BC4;
+        public int field_BC4;
         [FieldOffset(0xbc8)]
         public CallState CallState;
         [FieldOffset(0xbcc)]
@@ -85,14 +85,8 @@ namespace Internal.Windows.Calls.PhoneOm
         public int FindStatus;
         [FieldOffset(0xBD8)]
         public int field_bd8;
-        /// <summary>
-        /// Probably enum
-        /// 1 - ?
-        /// 2 - CallerIDValid
-        /// 3 - ?
-        /// </summary>
         [FieldOffset(0xbdc)]
-        public int field_BDC;
+        public PH_CALL_INFO_field_BDC field_BDC;
         [FieldOffset(0xBE0)]
         public CallTransport CallTransport;
         [FieldOffset(0xBE4)]
@@ -101,16 +95,8 @@ namespace Internal.Windows.Calls.PhoneOm
         public uint ConferenceID;
         [FieldOffset(0xbec)]
         public byte* gap_BEC;
-        /// <summary>
-        /// enum
-        /// 0x4 - BreakthroughCall
-        /// 0x20 - ShowKeypadOnCall
-        /// 0x80 - ShowAssistedDialUI
-        /// 0x200 - CallForwarded
-        /// 0x4000 - VoicemailCall
-        /// </summary>
-        [FieldOffset(0xbf0)]
-        public int field_BF0;
+        [FieldOffset(0xBF0)]
+        public PH_CALL_INFO_field_BF0 field_BF0;
         [FieldOffset(0xbf4)]
         public Guid PhoneLineID;
         //[FieldOffset(0xc00)]
@@ -134,30 +120,33 @@ namespace Internal.Windows.Calls.PhoneOm
         /// except 0 - VoipCall
         /// </summary>
         [FieldOffset(0xCB4)]
-        public int OwningApplicationType;
-        [FieldOffset(0xCB8), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
+        public uint OwningApplicationType;
+        /// <summary>
+        /// AppUserModelID
+        /// </summary>
+        [FieldOffset(0xCB8), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x40)]
         public string OwningApplicationId;
         [FieldOffset(0xEC0)]
-        public AudioQuality AudioQuality;
+        public CallAudioQuality AudioQuality;
         [FieldOffset(0xEC4)]
-        public AudioFlags AudioFlags;
+        public CallAudioFlags AudioFlags;
         [FieldOffset(0xEC8)]
         public int VideoCallContext;
         [FieldOffset(0xECC)]
-        public VideoFlags VideoFlags;
+        public CallVideoFlags VideoFlags;
         /// <summary>
         /// 1 or 2 - InVideoCallTransition
         /// </summary>
         [FieldOffset(0xED0)]
-        public VideoTransitionState VideoTransitionState;
+        public CallVideoTransitionState VideoTransitionState;
         [FieldOffset(0xED4)]
         public int VideoTransitionError;
         [FieldOffset(0xED8)]
-        public int RemotePartyIsVideoCapable;
+        public bool RemotePartyIsVideoCapable;
         [FieldOffset(0xEDC)]
         public int VideoConferenceContext;
         [FieldOffset(0xEE0)]
-        public VideoConferenceState VideoConferenceState;
+        public CallVideoConferenceState VideoConferenceState;
         [FieldOffset(0xEE4)]
         public long field_EE4;
         //[FieldOffset(0xEEC)]
@@ -174,12 +163,8 @@ namespace Internal.Windows.Calls.PhoneOm
         //public byte* gap_11D4;
         //[FieldOffset(0x126C), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x1F)]
         //public string CallerCategoryDescription;
-        /// <summary>
-        /// 1 - dialed
-        /// 2 - accept
-        /// </summary>
         [FieldOffset(0x136C)]
-        public uint ActionByExternalDevice;
+        public CallActionByExternalDevice ActionByExternalDevice;
         [FieldOffset(0x1370)]
         public long field_1370;
         //[FieldOffset(0x1378)]
