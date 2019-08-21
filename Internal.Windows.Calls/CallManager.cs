@@ -24,7 +24,6 @@ namespace Internal.Windows.Calls
             async Task<CallManager> impl()
             {
                 CallManager result = new CallManager();
-                result.ContactStore = await ContactManager.RequestStoreAsync(ContactStoreAccessType.AllContactsReadOnly);
                 return result;
             }
 
@@ -57,8 +56,11 @@ namespace Internal.Windows.Calls
 
         private CallManager()
         {
+            Task<ContactStore> store = Task.Run(() => ContactManager.RequestStoreAsync(ContactStoreAccessType.AllContactsReadOnly).AsTask());
             PhoneAPIInitialize();
             PhoneWaitForAPIReady(0x7530);
+            store.Wait();
+            ContactStore = store.Result;
             UpdateState();
             _Callback = NotificationCallback;
             PhoneAddListener(_Callback, SubscriptionTypes, (uint)SubscriptionTypes.Length, IntPtr.Zero, out _PhoneListenerPointer);
