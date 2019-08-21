@@ -8,6 +8,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using Internal.Windows.Calls.PhoneOm;
+using Windows.ApplicationModel.Contacts;
 using Windows.Foundation;
 
 using static Internal.Windows.Calls.PhoneOm.Exports;
@@ -22,8 +23,9 @@ namespace Internal.Windows.Calls
         {
             async Task<CallManager> impl()
             {
-                await Task.Yield();
-                return new CallManager();
+                CallManager result = new CallManager();
+                result.ContactStore = await ContactManager.RequestStoreAsync(ContactStoreAccessType.AllContactsReadOnly);
+                return result;
             }
 
             return impl().AsAsyncOperation();
@@ -32,6 +34,8 @@ namespace Internal.Windows.Calls
         private readonly IntPtr _PhoneListenerPointer;
         private readonly List<Call> _Calls = new List<Call>();
         private readonly PH_CHANGE_EVENT_NOTIFY_FUNCTION _Callback;
+
+        internal ContactStore ContactStore { get; private set; }
 
         public event TypedEventHandler<CallManager, Call> CallAppeared;
         /// <summary>
@@ -104,11 +108,12 @@ namespace Internal.Windows.Calls
                 PhoneClearIdleCallsFromController();
                 currentCallsChanged = true;
             }
+            Array.Sort(callInfos, (x, y) => x.ConferenceID.CompareTo(y.ConferenceID));
             foreach (PH_CALL_INFO callInfo in callInfos)
             {
                 if (!_Calls.Exists(x => x.ID == callInfo.CallID))
                 {
-                    Call call = new Call(callInfo);
+                    Call call = new Call(this, callInfo);
                     _Calls.Add(call);
                     CallAppeared?.Invoke(this, call);
                     currentCallsChanged = true;
@@ -122,6 +127,13 @@ namespace Internal.Windows.Calls
             {
                 PhoneClearIdleCallsFromController();
             }
+        }
+
+        public Call GetCallByID(uint id) => CurrentCalls.FirstOrDefault(x => x.ID == id);
+
+        public bool IsAbleToCreateConference(Call call0, Call call1)
+        {
+            return false;
         }
 
         public void SetSpeaker(bool state) => PhoneSetSpeaker(state);

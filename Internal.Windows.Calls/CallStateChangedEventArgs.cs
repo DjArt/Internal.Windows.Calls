@@ -12,7 +12,7 @@ namespace Internal.Windows.Calls
         public CallState NewState { get; }
         public CallStateReason StateReason { get; }
 
-        internal CallStateChangedEventArgs(CallState old, CallState @new, CallStateReason reason)
+        public CallStateChangedEventArgs(CallState old, CallState @new, CallStateReason reason)
         {
             OldState = old;
             NewState = @new;
