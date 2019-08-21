@@ -92,7 +92,7 @@ namespace Internal.Windows.Calls
                 try
                 {
                     call.UpdateID();
-                    call.UpdateState();
+                    Task.Run(call.UpdateState).Wait();
                 }
                 catch
                 {

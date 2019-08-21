@@ -272,7 +272,7 @@ namespace Internal.Windows.Calls
         internal Call(CallManager manager, PH_CALL_INFO callInfo)
         {
             _CallManager = manager;
-            UpdateState(callInfo);
+            Task.Run(() => UpdateState(callInfo)).Wait();
         }
 #nullable enable
 
@@ -319,7 +319,7 @@ namespace Internal.Windows.Calls
             AvailableActions = new AvailableActions(actions);
         }
 
-        private async void UpdateState(PH_CALL_INFO callInfo)
+        private async Task UpdateState(PH_CALL_INFO callInfo)
         {
             ActionByExternalDevice = callInfo.ActionByExternalDevice;
             AudioFlags = callInfo.AudioFlags;
@@ -422,10 +422,10 @@ namespace Internal.Windows.Calls
             ID = id;
         }
 
-        internal void UpdateState()
+        internal async Task UpdateState()
         {
             PhoneGetCallInfo(ID, out PH_CALL_INFO callInfo);
-            UpdateState(callInfo);
+            await UpdateState(callInfo);
         }
 
         public void AcceptIncomingEx() => PhoneAcceptIncomingEx(ID);
