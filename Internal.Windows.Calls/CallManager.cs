@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Internal.Windows.Calls.PhoneOm;
 using Windows.ApplicationModel.Contacts;
+using Windows.Globalization.PhoneNumberFormatting;
 using Windows.Foundation;
 
 using static Internal.Windows.Calls.PhoneOm.Exports;
@@ -35,6 +36,7 @@ namespace Internal.Windows.Calls
         private readonly PH_CHANGE_EVENT_NOTIFY_FUNCTION _Callback;
 
         internal ContactStore ContactStore { get; private set; }
+        internal PhoneNumberFormatter NumberFormatter { get; } = new PhoneNumberFormatter();
 
         public event TypedEventHandler<CallManager, Call> CallAppeared;
         /// <summary>

@@ -16,6 +16,7 @@ using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.Contacts;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
+using Windows.Globalization.PhoneNumberFormatting;
 using Windows.System;
 
 using static Internal.Windows.Calls.PhoneOm.Exports;
@@ -284,7 +285,7 @@ namespace Internal.Windows.Calls
             if (batch.Status == ContactBatchStatus.Success && batch.Contacts.Count > 0)
             {
                 contact = batch.Contacts.First();
-                phone = contact.Phones.First(x => x.Number == number);
+                phone = contact.Phones.First(x => _CallManager.NumberFormatter.FormatString(x.Number) == _CallManager.NumberFormatter.FormatString(number));
             }
             else
             {
