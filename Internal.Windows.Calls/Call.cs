@@ -285,7 +285,8 @@ namespace Internal.Windows.Calls
             if (batch.Status == ContactBatchStatus.Success && batch.Contacts.Count > 0)
             {
                 contact = batch.Contacts.First();
-                phone = contact.Phones.First(x => _CallManager.NumberFormatter.FormatString(x.Number) == _CallManager.NumberFormatter.FormatString(number));
+                PhoneNumberInfo internalNumber = new PhoneNumberInfo(number);
+                phone = contact.Phones.First(x => internalNumber.CheckNumberMatch(new PhoneNumberInfo(x.Number)) != PhoneNumberMatchResult.NoMatch);
             }
             else
             {

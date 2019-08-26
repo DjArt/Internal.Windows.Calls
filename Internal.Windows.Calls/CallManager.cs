@@ -36,7 +36,6 @@ namespace Internal.Windows.Calls
         private readonly PH_CHANGE_EVENT_NOTIFY_FUNCTION _Callback;
 
         internal ContactStore ContactStore { get; private set; }
-        internal PhoneNumberFormatter NumberFormatter { get; } = new PhoneNumberFormatter();
 
         public event TypedEventHandler<CallManager, Call> CallAppeared;
         /// <summary>
@@ -109,7 +108,6 @@ namespace Internal.Windows.Calls
             }
             if (invalidCalls.Count > 0)
             {
-                PhoneClearIdleCallsFromController();
                 currentCallsChanged = true;
             }
             Array.Sort(callInfos, (x, y) => x.ConferenceID.CompareTo(y.ConferenceID));
