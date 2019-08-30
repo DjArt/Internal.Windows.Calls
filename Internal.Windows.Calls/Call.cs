@@ -277,7 +277,7 @@ namespace Internal.Windows.Calls
         }
 #nullable enable
 
-        private async Task<(Contact?, ContactPhone?)> FindInfoByNumber(string number)
+        private async Task<(Contact?, ContactPhone?)> FindInfoByNumber(string name, string number)
         {
             Contact? contact = null;
             ContactPhone? phone = null;
@@ -298,6 +298,7 @@ namespace Internal.Windows.Calls
                 contact = new Contact()
                 {
                     Phones = { phone },
+                    DisplayNameOverride = name
                 };
             }
             return (contact, phone);
@@ -309,6 +310,13 @@ namespace Internal.Windows.Calls
             if (batch.Status == ContactBatchStatus.Success && batch.Contacts.Count > 0)
             {
                 return batch.Contacts.First();
+            }
+            else if (!string.IsNullOrEmpty(name))
+            {
+                return new Contact()
+                {
+                    DisplayNameOverride = name
+                };
             }
             else
             {
@@ -392,7 +400,7 @@ namespace Internal.Windows.Calls
             {
                 if (!string.IsNullOrEmpty(callInfo.Number))
                 {
-                    (Contact? Contact, ContactPhone? Phone) info = await FindInfoByNumber(callInfo.Number);
+                    (Contact? Contact, ContactPhone? Phone) info = await FindInfoByNumber(callInfo.Name, callInfo.Number);
                     Contact = info.Contact;
                     Phone = info.Phone;
                 }
@@ -402,7 +410,7 @@ namespace Internal.Windows.Calls
                 }
                 if (!string.IsNullOrEmpty(callInfo.ForwardNumber))
                 {
-                    (Contact? Contact, ContactPhone? Phone) info = await FindInfoByNumber(callInfo.ForwardNumber);
+                    (Contact? Contact, ContactPhone? Phone) info = await FindInfoByNumber(string.Empty, callInfo.ForwardNumber);
                     ForwardContact = info.Contact;
                     ForwardPhone = info.Phone;
                 }
