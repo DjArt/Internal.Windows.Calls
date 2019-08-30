@@ -14,7 +14,7 @@ namespace Internal.Windows.Calls
         ActiveTalking = 3,
         OnHold = 4,
         Disconnected = 5,
-        Transfering = 6,
+        Transferring = 6,
         Count = 7
     }
 }
