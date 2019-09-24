@@ -34,15 +34,29 @@ namespace Internal.Windows.Calls
         private readonly IntPtr _PhoneListenerPointer;
         private readonly List<Call> _Calls = new List<Call>();
         private readonly PH_CHANGE_EVENT_NOTIFY_FUNCTION _Callback;
+        private Call _ActiveCall;
 
         internal ContactStore ContactStore { get; private set; }
 
+        public event TypedEventHandler<CallManager, Call> ActiveCallChanged;
         public event TypedEventHandler<CallManager, Call> CallAppeared;
         /// <summary>
         /// Fires when <see cref="CurrentCalls"/> obtains or lost calls.
         /// </summary>
         public event TypedEventHandler<CallManager, CallCounts> CurrentCallsChanged;
 
+        public Call ActiveCall
+        {
+            get => _ActiveCall;
+            private set
+            {
+                if (_ActiveCall != value)
+                {
+                    _ActiveCall = value;
+                    ActiveCallChanged?.Invoke(this, value);
+                }
+            }
+        }
         public IEnumerable<Call> CurrentCalls => _Calls.ToList().AsReadOnly();
         public CallCounts CallCounts { get; private set; }
 
@@ -125,6 +139,7 @@ namespace Internal.Windows.Calls
             {
                 CurrentCallsChanged?.Invoke(this, new CallCounts(callCounts));
             }
+            ActiveCall = CurrentCalls.OrderBy(x => x.State.CallStateToOrder()).FirstOrDefault();
             if (CallCounts.DisconnectedCalls > 0 || CallCounts.IndeterminateCalls > 0 || CallCounts.UpgradingCalls > 0)
             {
                 PhoneClearIdleCallsFromController();
