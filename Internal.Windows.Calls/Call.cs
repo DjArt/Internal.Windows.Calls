@@ -277,7 +277,7 @@ namespace Internal.Windows.Calls
         }
 #nullable enable
 
-        private async Task<(Contact?, ContactPhone?)> FindInfoByNumber(string name, string number)
+        private async Task<Tuple<Contact?, ContactPhone?>> FindInfoByNumber(string name, string number)
         {
             Contact? contact = null;
             ContactPhone? phone = null;
@@ -301,7 +301,7 @@ namespace Internal.Windows.Calls
                     DisplayNameOverride = name
                 };
             }
-            return (contact, phone);
+            return new Tuple<Contact?, ContactPhone?>(contact, phone);
         }
 
         private async Task<Contact?> FindInfoByName(string name)
@@ -400,9 +400,9 @@ namespace Internal.Windows.Calls
             {
                 if (!string.IsNullOrEmpty(callInfo.Number))
                 {
-                    (Contact? Contact, ContactPhone? Phone) info = await FindInfoByNumber(callInfo.Name, callInfo.Number);
-                    Contact = info.Contact;
-                    Phone = info.Phone;
+                    Tuple<Contact?, ContactPhone?> info = await FindInfoByNumber(callInfo.Name, callInfo.Number);
+                    Contact = info.Item1;
+                    Phone = info.Item2;
                 }
                 if (Contact == null && !string.IsNullOrEmpty(callInfo.Name))
                 {
@@ -410,9 +410,9 @@ namespace Internal.Windows.Calls
                 }
                 if (!string.IsNullOrEmpty(callInfo.ForwardNumber))
                 {
-                    (Contact? Contact, ContactPhone? Phone) info = await FindInfoByNumber(string.Empty, callInfo.ForwardNumber);
-                    ForwardContact = info.Contact;
-                    ForwardPhone = info.Phone;
+                    Tuple<Contact?, ContactPhone?> info = await FindInfoByNumber(string.Empty, callInfo.ForwardNumber);
+                    ForwardContact = info.Item1;
+                    ForwardPhone = info.Item2;
                 }
             }
             StateReason = callInfo.CallStateReason;

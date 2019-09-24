@@ -37,5 +37,24 @@ namespace Internal.Windows.Calls
             }
             return result.ToString();
         }
+
+        public static uint CallStateToOrder(this CallState state)
+        {
+            switch(state)
+            {
+                case CallState.Incoming:
+                    return 0;
+                case CallState.Dialing:
+                    return 1;
+                case CallState.ActiveTalking:
+                    return 2;
+                case CallState.OnHold:
+                    return 3;
+                case CallState.Transferring:
+                    return 4;
+                default:
+                    return 5;
+            }
+        }
     }
 }
