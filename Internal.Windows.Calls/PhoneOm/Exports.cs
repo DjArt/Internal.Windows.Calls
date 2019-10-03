@@ -136,7 +136,7 @@ namespace Internal.Windows.Calls.PhoneOm
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneGetBlockUnknownNumbersSetting();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
-        public static extern void PhoneGetBluetoothHandsFreeState();
+        public static extern void PhoneGetBluetoothHandsFreeState(out bool state);
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneGetBrandingText();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
@@ -338,7 +338,7 @@ namespace Internal.Windows.Calls.PhoneOm
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneSetBlockUnknownNumbersSetting();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
-        public static extern void PhoneSetBluetoothHfpCallAudioTransfer();
+        public static extern void PhoneSetBluetoothHfpCallAudioTransfer(bool state);
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneSetCallOriginInfo();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]

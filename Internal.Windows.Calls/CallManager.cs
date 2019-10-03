@@ -13,6 +13,7 @@ using Windows.Globalization.PhoneNumberFormatting;
 using Windows.Foundation;
 
 using static Internal.Windows.Calls.PhoneOm.Exports;
+using Windows.ApplicationModel.Calls;
 
 namespace Internal.Windows.Calls
 {
@@ -59,6 +60,39 @@ namespace Internal.Windows.Calls
         }
         public IEnumerable<Call> CurrentCalls => _Calls.ToList().AsReadOnly();
         public CallCounts CallCounts { get; private set; }
+
+        public PhoneAudioRoutingEndpoint AudioEndpoint
+        {
+            get
+            {
+                PhoneGetBluetoothHandsFreeState(out bool hfp);
+                PhoneGetSpeaker(out bool speaker);
+                return !hfp && !speaker ? PhoneAudioRoutingEndpoint.Default : hfp ? PhoneAudioRoutingEndpoint.Bluetooth : PhoneAudioRoutingEndpoint.Speakerphone;
+            }
+            set
+            {
+                switch (value)
+                {
+                    case PhoneAudioRoutingEndpoint.Bluetooth:
+                        PhoneSetBluetoothHfpCallAudioTransfer(true);
+                        break;
+                    case PhoneAudioRoutingEndpoint.Default:
+                        switch (AudioEndpoint)
+                        {
+                            case PhoneAudioRoutingEndpoint.Bluetooth:
+                                PhoneSetBluetoothHfpCallAudioTransfer(false);
+                                break;
+                            case PhoneAudioRoutingEndpoint.Speakerphone:
+                                PhoneSetSpeaker(false);
+                                break;
+                        }
+                        break;
+                    case PhoneAudioRoutingEndpoint.Speakerphone:
+                        PhoneSetSpeaker(true);
+                        break;
+                }
+            }
+        }
 
         public bool WiredHeadsetIsConnected
         {
@@ -152,7 +186,5 @@ namespace Internal.Windows.Calls
         {
             return false;
         }
-
-        public void SetSpeaker(bool state) => PhoneSetSpeaker(state);
     }
 }
