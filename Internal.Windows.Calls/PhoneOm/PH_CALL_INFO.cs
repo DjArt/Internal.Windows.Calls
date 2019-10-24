@@ -124,7 +124,7 @@ namespace Internal.Windows.Calls.PhoneOm
         /// <summary>
         /// AppUserModelID
         /// </summary>
-        [FieldOffset(0xCB8), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x40)]
+        [FieldOffset(0xCB8), MarshalAs(UnmanagedType.ByValTStr, SizeConst = 0x208)]
         public string OwningApplicationId;
         [FieldOffset(0xEC0)]
         public CallAudioQuality AudioQuality;
