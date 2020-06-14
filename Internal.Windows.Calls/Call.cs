@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 
 using Internal.Windows.Calls.PhoneOm;
 using System;
@@ -67,6 +67,7 @@ namespace Internal.Windows.Calls
         public event TypedEventHandler<Call, CallTimeChangedEventArgs> StartTimeChanged;
         public event TypedEventHandler<Call, CallTimeChangedEventArgs> EndTimeChanged;
         public event TypedEventHandler<Call, CallTimeChangedEventArgs> LastFlashedTimeChanged;
+        public event TypedEventHandler<Call, CallTimeChangedEventArgs> Field_BB4Changed;
 
         public Contact? Contact
         {
@@ -124,6 +125,19 @@ namespace Internal.Windows.Calls
                     DateTimeOffset? old = _LastFlashedTime;
                     _LastFlashedTime = value;
                     LastFlashedTimeChanged?.Invoke(this, new CallTimeChangedEventArgs(old, _LastFlashedTime));
+                }
+            }
+        }
+        public DateTimeOffset? Field_BB4
+        {
+            get => _field_BB4;
+            private set
+            {
+                if (value != _field_BB4)
+                {
+                    DateTimeOffset? old = _field_BB4;
+                    _field_BB4 = value;
+                    Field_BB4Changed?.Invoke(this, new CallTimeChangedEventArgs(old, _field_BB4));
                 }
             }
         }
@@ -360,7 +374,7 @@ namespace Internal.Windows.Calls
             }
             try
             {
-                _field_BB4 = callInfo.field_BB4 == 0 ? (DateTimeOffset?)null : DateTimeOffset.FromFileTime(callInfo.field_BB4);
+                Field_BB4 = callInfo.field_BB4 == 0 ? (DateTimeOffset?)null : DateTimeOffset.FromFileTime(callInfo.field_BB4);
             }
             catch
             {
