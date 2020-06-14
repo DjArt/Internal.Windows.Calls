@@ -11,5 +11,6 @@ namespace Internal.Windows.Calls
         Unknown = 0,
         Cellular = 1,
         VoIP = 2,
+        ImsOverWifi = 3
     }
 }
