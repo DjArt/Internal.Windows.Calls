@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Internal.Windows.Calls
 {
     [Flags]
-    public enum PH_CALL_INFO_field_BF0 : uint
+    public enum CallFlags : uint
     {
         BreakthroughCall = 0x4,
         ShowKeypadOnCall = 0x20,
