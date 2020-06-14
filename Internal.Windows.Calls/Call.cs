@@ -34,14 +34,14 @@ namespace Internal.Windows.Calls
         private DateTimeOffset? _StartTime;
         private DateTimeOffset? _EndTime;
         private DateTimeOffset? _LastFlashedTime;
-        private DateTimeOffset? _field_BB4;
+        private DateTimeOffset? _ArrivalTime;
         private CallState _State;
         private CallStateReason _StateReason;
         private CallDirection _Direction;
         private uint _ID;
         private uint _ConferenceID;
         private PhoneLine? _Line;
-        private PH_CALL_INFO_field_BF0 _field_BF0;
+        private CallFlags _field_BF0;
         private CallUpgradeState _UpgradeState;
         private AppInfo? _OwningApplication;
         private CallAudioQuality _AudioQuality;
@@ -50,7 +50,7 @@ namespace Internal.Windows.Calls
         private CallVideoTransitionState _VideoTransitionState;
         private bool _RemotePartyIsVideoCapable;
         private CallVideoConferenceState _VideoConferenceState;
-        private CallActionByExternalDevice _ActionByExternalDevice;
+        private CallInteractor _ActionByExternalDevice;
         private bool _IsHandoverMerged;
         private bool _IsRoaming;
         private bool _IsBareCall;
@@ -67,7 +67,7 @@ namespace Internal.Windows.Calls
         public event TypedEventHandler<Call, CallTimeChangedEventArgs> StartTimeChanged;
         public event TypedEventHandler<Call, CallTimeChangedEventArgs> EndTimeChanged;
         public event TypedEventHandler<Call, CallTimeChangedEventArgs> LastFlashedTimeChanged;
-        public event TypedEventHandler<Call, CallTimeChangedEventArgs> Field_BB4Changed;
+        public event TypedEventHandler<Call, CallTimeChangedEventArgs> ArrivalTimeChanged;
 
         public Contact? Contact
         {
@@ -128,16 +128,16 @@ namespace Internal.Windows.Calls
                 }
             }
         }
-        public DateTimeOffset? Field_BB4
+        public DateTimeOffset? CallArrivalTime
         {
-            get => _field_BB4;
+            get => _ArrivalTime;
             private set
             {
-                if (value != _field_BB4)
+                if (value != _ArrivalTime)
                 {
-                    DateTimeOffset? old = _field_BB4;
-                    _field_BB4 = value;
-                    Field_BB4Changed?.Invoke(this, new CallTimeChangedEventArgs(old, _field_BB4));
+                    DateTimeOffset? old = _ArrivalTime;
+                    _ArrivalTime = value;
+                    ArrivalTimeChanged?.Invoke(this, new CallTimeChangedEventArgs(old, _ArrivalTime));
                 }
             }
         }
@@ -195,7 +195,7 @@ namespace Internal.Windows.Calls
             get => _Line;
             private set => _Line = value;
         }
-        public PH_CALL_INFO_field_BF0 field_BF0
+        public CallFlags field_BF0
         {
             get => _field_BF0;
             private set => _field_BF0 = value;
@@ -240,7 +240,7 @@ namespace Internal.Windows.Calls
             get => _VideoConferenceState;
             private set => _VideoConferenceState = value;
         }
-        public CallActionByExternalDevice ActionByExternalDevice
+        public CallInteractor ActionByExternalDevice
         {
             get => _ActionByExternalDevice;
             private set => _ActionByExternalDevice = value;
@@ -345,12 +345,12 @@ namespace Internal.Windows.Calls
 
         private async Task UpdateState(PH_CALL_INFO callInfo)
         {
-            ActionByExternalDevice = callInfo.ActionByExternalDevice;
+            ActionByExternalDevice = callInfo.InitialInteractor;
             AudioFlags = callInfo.AudioFlags;
             AudioQuality = callInfo.AudioQuality;
             try
             {
-                StartTime = callInfo.CallStartTime == 0 ? (DateTimeOffset?)null : DateTimeOffset.FromFileTime(callInfo.CallStartTime);
+                StartTime = DateTimeOffset.FromFileTime((((long)callInfo.CallStartTime.dwHighDateTime) << 32) | ((uint)callInfo.CallStartTime.dwLowDateTime));
             }
             catch
             {
@@ -358,7 +358,7 @@ namespace Internal.Windows.Calls
             }
             try
             {
-                EndTime = callInfo.CallEndTime == 0 ? (DateTimeOffset?)null : DateTimeOffset.FromFileTime(callInfo.CallEndTime);
+                EndTime = DateTimeOffset.FromFileTime((((long)callInfo.CallEndTime.dwHighDateTime) << 32) | ((uint)callInfo.CallEndTime.dwLowDateTime));
             }
             catch
             {
@@ -366,7 +366,7 @@ namespace Internal.Windows.Calls
             }
             try
             {
-                LastFlashedTime = callInfo.LastFlashedTime == 0 ? (DateTimeOffset?)null : DateTimeOffset.FromFileTime(callInfo.LastFlashedTime);
+                LastFlashedTime = DateTimeOffset.FromFileTime((((long)callInfo.LastFlashedTime.dwHighDateTime) << 32) | ((uint)callInfo.LastFlashedTime.dwLowDateTime));
             }
             catch
             {
@@ -374,7 +374,7 @@ namespace Internal.Windows.Calls
             }
             try
             {
-                Field_BB4 = callInfo.field_BB4 == 0 ? (DateTimeOffset?)null : DateTimeOffset.FromFileTime(callInfo.field_BB4);
+                CallArrivalTime = DateTimeOffset.FromFileTime((((long)callInfo.CallArrivalTime.dwHighDateTime) << 32) | ((uint)callInfo.CallArrivalTime.dwLowDateTime));
             }
             catch
             {
@@ -412,15 +412,15 @@ namespace Internal.Windows.Calls
             }
             else
             {
-                if (!string.IsNullOrEmpty(callInfo.Number))
+                if (!string.IsNullOrEmpty(callInfo.DisplayNumber))
                 {
-                    Tuple<Contact?, ContactPhone?> info = await FindInfoByNumber(callInfo.Name, callInfo.Number);
+                    Tuple<Contact?, ContactPhone?> info = await FindInfoByNumber(callInfo.DisplayName, callInfo.DisplayNumber);
                     Contact = info.Item1;
                     Phone = info.Item2;
                 }
-                if (Contact == null && !string.IsNullOrEmpty(callInfo.Name))
+                if (Contact == null && !string.IsNullOrEmpty(callInfo.DisplayName))
                 {
-                    Contact = await FindInfoByName(callInfo.Name);
+                    Contact = await FindInfoByName(callInfo.DisplayName);
                 }
                 if (!string.IsNullOrEmpty(callInfo.ForwardNumber))
                 {

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Internal.Windows.Calls
 {
-    public enum CallTransport : int
+    public enum CallerId : int
     {
-        Unknown = 0,
-        Cellular = 1,
-        VoIP = 2,
-        ImsOverWifi = 3
+        Unavailable = 0,
+        Blocked = 1,
+        Valid = 2,
+        Ambiguous = 3
     }
 }

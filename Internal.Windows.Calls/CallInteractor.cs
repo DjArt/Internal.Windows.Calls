@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Internal.Windows.Calls
 {
-    public enum CallTransport : int
+    public enum CallInteractor : uint
     {
-        Unknown = 0,
-        Cellular = 1,
-        VoIP = 2,
-        ImsOverWifi = 3
+        Default = 0,
+        Bluetooth = 1,
+        WiredHeadset = 2,
     }
 }

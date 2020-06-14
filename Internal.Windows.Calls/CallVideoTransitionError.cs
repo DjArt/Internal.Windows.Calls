@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Internal.Windows.Calls
 {
-    public enum CallTransport : int
+    public enum CallVideoTransitionError : int
     {
-        Unknown = 0,
-        Cellular = 1,
-        VoIP = 2,
-        ImsOverWifi = 3
+        None = 0,
+        Rejected = 1
     }
 }

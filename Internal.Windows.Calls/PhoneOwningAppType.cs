@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Internal.Windows.Calls
 {
-    public enum CallTransport : int
+    public enum PhoneOwningAppType : int
     {
-        Unknown = 0,
-        Cellular = 1,
-        VoIP = 2,
-        ImsOverWifi = 3
+        None = 0,
+        Legacy = 1,
+        LightUp = 2,
+        Modern = 3,
+        Win32 = 4
     }
 }
