@@ -442,7 +442,12 @@ namespace Internal.Windows.Calls
         internal void UpdateID()
         {
             uint id = ID;
-            PhoneReinitiateCallerIdLookup(ref id);
+
+            //Simone - This might need to be fixed. In 22000 this export was removed,
+            //but I don't have a way to test eventual fixes needed. This comment fixes the crash at startup. 
+
+            //PhoneReinitiateCallerIdLookup(ref id);
+
             ID = id;
         }
 

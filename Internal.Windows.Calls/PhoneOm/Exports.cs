@@ -305,8 +305,12 @@ namespace Internal.Windows.Calls.PhoneOm
         public static extern void PhoneRefreshEcbmState();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneRefreshVideoCallingSetting();
-        [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
-        public static extern void PhoneReinitiateCallerIdLookup(ref uint callID);
+
+        //Simone - This export was removed from PhoneOm.dll in 22000
+
+        //[DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
+        //public static extern void PhoneReinitiateCallerIdLookup(ref uint callID);
+
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneRejectIncoming(in uint callID);
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
