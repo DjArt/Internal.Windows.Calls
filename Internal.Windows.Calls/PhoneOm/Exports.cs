@@ -271,10 +271,14 @@ namespace Internal.Windows.Calls.PhoneOm
         public static extern void PhoneIsVoiceRoamingRestrictionActive();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneIsVvmSetupComplete();
-        [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
-        public static extern void PhoneLineAddCapabilities();
-        [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
-        public static extern void PhoneLineRemoveCapabilities();
+
+        //Gustave - These exports were removed from PhoneOm.dll during Nickel Semester
+
+        //[DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
+        //public static extern void PhoneLineAddCapabilities();
+        //[DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
+        //public static extern void PhoneLineRemoveCapabilities();
+
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
         public static extern void PhoneMapIddPrefixToPlus();
         [DllImport("PhoneOm.dll", ExactSpelling = true, PreserveSig = false)]
